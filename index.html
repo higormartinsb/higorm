@@ -41,9 +41,10 @@
         .card {
             width: 17rem;
             margin: 15px;
-            border: 1px solid #ddd;
+            border: 0px solid #ddd;
             border-radius: 10px;
             overflow: hidden;
+            position: relative;
             transition: transform 0.3s, box-shadow 0.3s;
             display: flex;
             flex-direction: column; 
@@ -59,10 +60,6 @@
     height: 200px;           /* Define uma altura fixa para todas as imagens */
     object-fit: contain;       /* Faz a imagem cobrir a área disponível sem distorcer */
 }
-
-        
-
-
 
         .card:hover {
             transform: translateY(-5px);
@@ -86,7 +83,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            height: 150px;
+            height: auto;
         }
 
         .card-title {
@@ -99,12 +96,26 @@
             -webkit-box-orient: vertical;
             text-overflow: ellipsis;
         }
+        
+        .price-container {
+    display: flex;
+    flex-direction: column; /* Alinha verticalmente */
+    margin-bottom: 10px;
+}
 
-        .card-price {
-            font-size: 16px;
-            font-weight: bold;
-            color: #007bff;
-        }
+.card-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #007bff;
+    margin: 0; /* Remove margens extras */
+    line-height: 1.2; /* Reduz espaço entre linhas */
+}
+
+.card-text {
+    font-size: 13px;
+    color: rgba(20, 19, 19, 0.8);
+    margin-top: 2px; /* Reduz espaço entre preço e texto */
+}
 
         .btn-promo {
             width: 100%;
@@ -170,6 +181,49 @@
         .card:hover .btn-promo .ver-produto {
             display: block;
         }
+       
+        .discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px; /* Coloca o badge no canto superior esquerdo */
+    background-color: #ff4500; /* Cor do balão */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 65px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.best-seller-badge {
+    position: absolute;
+    bottom: 10px; /* Ajuste a distância em relação à parte inferior */
+    left: 10px; /* Ajuste a distância em relação à lateral esquerda */
+    background-color: #0047ab; /* Azul real */
+    color: white; /* Cor do texto */
+    font-size: 12px; /* Tamanho do texto */
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 3px 8px; /* Margem interna */
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra */
+    white-space: nowrap; /* Evita quebra de linha */
+}
+
+.star-rating i {
+    color: rgb(255, 166, 0); /* Cor das estrelas preenchidas */
+    font-size: 8px;
+    margin-right: 2px;
+}
+.star-rating {
+    color: #ffd700; /* Cor dourada para as estrelas */
+    margin-top: -10px; /* Ajuste a distância entre o título e as estrelas */
+}
+
 
         /* Responsividade */
         @media (max-width: 767px) {
@@ -249,16 +303,53 @@
     </div>
 
     <!-- Conteúdo de Produtos (já incluído no seu código) -->
+    
     <div class="container mt-5">
         <div class="row">
-            <!-- Produto 1 -->
+            <!-- Card 1 -->
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="card">
-                    <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                    <div class="image-container" style="position: relative;">
+                        <div class="discount-badge">10% OFF</div>
+                        <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                        <div class="best-seller-badge">1º mais vendido</div>
+                    </div>
                     <div class="card-body text-left">
-                        <h5 class="card-title">Notebook Gamer Acer Nitro V15, Intel Core I5-13420h, 8GB DDR5
-                    </h5>
+                        <div class="star-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i> <!-- Para avaliação de meio -->
+                            <i class="far fa-star"></i> <!-- Estrela vazia -->
+                        </div>
+                        <h5 class="card-title">Placa De Vídeo Gigabyte AMD Radeon RX 7600 Gaming 
+                            OC, 8GB, GDDR6, FSR, Ray Tracing, GV-R76GAMING OC-8GD</h5>
+                        
                         <p class="card-price">R$ 99,90</p>
+                        <p class="card-text">À vista no Pix</p>
+                        <button class="btn-promo">
+                            <i class="fas fa-fire"></i>
+                            <div class="promo-message">Promoção</div>
+                            <div class="countdown" id="countdown-1">20:00</div>
+                            <div class="ver-produto">Ver produto</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Card 2 -->
+               <!-- Card 1 -->
+               <div class="col-6 col-md-4 col-lg-3">
+                <div class="card">
+                    <div class="image-container" style="position: relative;">
+                        <div class="discount-badge">10% OFF</div>
+                        <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                        <div class="best-seller-badge">1º mais vendido</div>
+                    </div>
+                    <div class="card-body text-left">
+                        <h5 class="card-title">Notebook Gamer Acer Nitro V15</h5>
+                        <p class="card-price">R$ 99,90</p>
+                        <p class="card-text">À vista no Pix</p>
                         <button class="btn-promo">
                             <i class="fas fa-fire"></i>
                             <div class="promo-message">Promoção</div>
@@ -269,12 +360,19 @@
                 </div>
             </div>
 
-            <div class="col-6 col-md-4 col-lg-3">
+            <!-- card 3-->
+        <!-- Card 1 -->
+        <div class="col-6 col-md-4 col-lg-3">
                 <div class="card">
-                    <img src="img/10.png" class="card-img-top" alt="Produto 1">
+                    <div class="image-container" style="position: relative;">
+                        <div class="discount-badge">10% OFF</div>
+                        <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                        <div class="best-seller-badge">1º mais vendido</div>
+                    </div>
                     <div class="card-body text-left">
-                        <h5 class="card-title">Processador AMD Ryzen 7 5700X3D</h5>
+                        <h5 class="card-title">Notebook Gamer Acer Nitro V15</h5>
                         <p class="card-price">R$ 99,90</p>
+                        <p class="card-text">À vista no Pix</p>
                         <button class="btn-promo">
                             <i class="fas fa-fire"></i>
                             <div class="promo-message">Promoção</div>
@@ -285,12 +383,42 @@
                 </div>
             </div>
 
-            <div class="col-6 col-md-4 col-lg-3">
+            <!--Card 4-->
+                <!-- Card 1 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card">
+                        <div class="image-container" style="position: relative;">
+                            <div class="discount-badge">10% OFF</div>
+                            <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                            <div class="best-seller-badge">1º mais vendido</div>
+                        </div>
+                        <div class="card-body text-left">
+                            <h5 class="card-title">Notebook Gamer Acer Nitro V15</h5>
+                            <p class="card-price">R$ 99,90</p>
+                            <p class="card-text">À vista no Pix</p>
+                            <button class="btn-promo">
+                                <i class="fas fa-fire"></i>
+                                <div class="promo-message">Promoção</div>
+                                <div class="countdown" id="countdown-1">20:00</div>
+                                <div class="ver-produto">Ver produto</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--card 5-->
+                    <!-- Card 1 -->
+                    <div class="col-6 col-md-4 col-lg-3">
                 <div class="card">
-                    <img src="img/2.png" class="card-img-top" alt="Produto 1">
+                    <div class="image-container" style="position: relative;">
+                        <div class="discount-badge">10% OFF</div>
+                        <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                        <div class="best-seller-badge">1º mais vendido</div>
+                    </div>
                     <div class="card-body text-left">
-                        <h5 class="card-title">Processador AMD Ryzen 7 5700X3D</h5>
+                        <h5 class="card-title">Notebook Gamer Acer Nitro V15</h5>
                         <p class="card-price">R$ 99,90</p>
+                        <p class="card-text">À vista no Pix</p>
                         <button class="btn-promo">
                             <i class="fas fa-fire"></i>
                             <div class="promo-message">Promoção</div>
@@ -301,12 +429,42 @@
                 </div>
             </div>
 
-            <div class="col-6 col-md-4 col-lg-3">
+            <!--Card 6-->
+                <!-- Card 1 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card">
+                        <div class="image-container" style="position: relative;">
+                            <div class="discount-badge">10% OFF</div>
+                            <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                            <div class="best-seller-badge">1º mais vendido</div>
+                        </div>
+                        <div class="card-body text-left">
+                            <h5 class="card-title">Notebook Gamer Acer Nitro V15</h5>
+                            <p class="card-price">R$ 99,90</p>
+                            <p class="card-text">À vista no Pix</p>
+                            <button class="btn-promo">
+                                <i class="fas fa-fire"></i>
+                                <div class="promo-message">Promoção</div>
+                                <div class="countdown" id="countdown-1">20:00</div>
+                                <div class="ver-produto">Ver produto</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Card 7-->
+                    <!-- Card 1 -->
+                    <div class="col-6 col-md-4 col-lg-3">
                 <div class="card">
-                    <img src="img/3.png" class="card-img-top" alt="Produto 1">
+                    <div class="image-container" style="position: relative;">
+                        <div class="discount-badge">10% OFF</div>
+                        <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                        <div class="best-seller-badge">1º mais vendido</div>
+                    </div>
                     <div class="card-body text-left">
-                        <h5 class="card-title">Processador AMD Ryzen 7 5700X3D</h5>
+                        <h5 class="card-title">Notebook Gamer Acer Nitro V15</h5>
                         <p class="card-price">R$ 99,90</p>
+                        <p class="card-text">À vista no Pix</p>
                         <button class="btn-promo">
                             <i class="fas fa-fire"></i>
                             <div class="promo-message">Promoção</div>
@@ -316,71 +474,34 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="img/4.png" class="card-img-top" alt="Produto 1">
-                    <div class="card-body text-left">
-                        <h5 class="card-title">Processador AMD Ryzen 7 5700X3D</h5>
-                        <p class="card-price">R$ 99,90</p>
-                        <button class="btn-promo">
-                            <i class="fas fa-fire"></i>
-                            <div class="promo-message">Promoção</div>
-                            <div class="countdown" id="countdown-1">20:00</div>
-                            <div class="ver-produto">Ver produto</div>
-                        </button>
+            <!--Card 8-->
+                <!-- Card 1 -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="card">
+                        <div class="image-container" style="position: relative;">
+                            <div class="discount-badge">10% OFF</div>
+                            <img src="img/1.png" class="card-img-top" alt="Produto 1">
+                            <div class="best-seller-badge">1º mais vendido</div>
+                        </div>
+                        <div class="card-body text-left">
+                            <h5 class="card-title">Notebook Gamer Acer Nitro V15</h5>
+                            <p class="card-price">R$ 99,90</p>
+                            <p class="card-text">À vista no Pix</p>
+                            <button class="btn-promo">
+                                <i class="fas fa-fire"></i>
+                                <div class="promo-message">Promoção</div>
+                                <div class="countdown" id="countdown-1">20:00</div>
+                                <div class="ver-produto">Ver produto</div>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="img/5.png" class="card-img-top" alt="Produto 1">
-                    <div class="card-body text-left">
-                        <h5 class="card-title">Processador AMD Ryzen 7 5700X3D</h5>
-                        <p class="card-price">R$ 99,90</p>
-                        <button class="btn-promo">
-                            <i class="fas fa-fire"></i>
-                            <div class="promo-message">Promoção</div>
-                            <div class="countdown" id="countdown-1">20:00</div>
-                            <div class="ver-produto">Ver produto</div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="img/6.png" class="card-img-top" alt="Produto 1">
-                    <div class="card-body text-left">
-                        <h5 class="card-title">Processador AMD Ryzen 7 5700X3D</h5>
-                        <p class="card-price">R$ 99,90</p>
-                        <button class="btn-promo">
-                            <i class="fas fa-fire"></i>
-                            <div class="promo-message">Promoção</div>
-                            <div class="countdown" id="countdown-1">20:00</div>
-                            <div class="ver-produto">Ver produto</div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="card">
-                    <img src="img/7.png" class="card-img-top" alt="Produto 1">
-                    <div class="card-body text-left">
-                        <h5 class="card-title">Processador AMD Ryzen 7 5700X3D</h5>
-                        <p class="card-price">R$ 99,90</p>
-                        <button class="btn-promo">
-                            <i class="fas fa-fire"></i>
-                            <div class="promo-message">Promoção</div>
-                            <div class="countdown" id="countdown-1">20:00</div>
-                            <div class="ver-produto">Ver produto</div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
+                
+            <!-- Outros cards seguem a mesma estrutura -->
+        </div>
+    </div>
+    
             <!-- Outros produtos -->
             <!-- (Repita as divs de produtos conforme necessário) -->
         </div>
