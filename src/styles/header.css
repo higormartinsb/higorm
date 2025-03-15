@@ -15,6 +15,7 @@ header {
 }
 
 #nav_logo {
+    width: 200px;
     font-size: 24px;
     color: var(--color-primary-6);
 }
@@ -44,11 +45,55 @@ header {
     display: none;
 }
 
+.menu-icons {
+    display: none; /* Ícones inicialmente escondidos */
+    font-size: 25px;
+    background-color: aquamarine; /* Pode ser removido ou ajustado */
+    width: 100vw; /* Largura total da tela */
+    justify-content: space-between; /* Espaça os ícones automaticamente */
+    color: blueviolet;
+}
+
+/* Quando a classe "active" é adicionada, os ícones aparecem */
+.menu-icons.active {
+    display: block; /* Exibe os ícones */
+    font-size: 25px;
+}
+
+#icon-menu{
+    justify-content: space-between;
+    display: flex;
+}
+
+#container_menu{
+    display: none;
+    justify-content: space-between;
+    background-color: black;
+}
+
 @media screen and (max-width: 1170px) {
     #nav_list,
     #navbar .btn-default {
         display: none;
     }
+
+    /* Estilo inicial dos ícones, no modo normal (sem estar ativo) */
+.menu-icons {
+    display: block; /* Ícones inicialmente escondidos */
+    font-size: 25px;
+}
+
+/* Quando a classe "active" é adicionada, os ícones aparecem */
+.menu-icons.active {
+    display: block; /* Exibe os ícones */
+    font-size: 25px;
+}
+
+#container_menu{
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+}
 
     #mobile_btn {
         display: block;
@@ -56,6 +101,7 @@ header {
         background-color: transparent;
         font-size: 1.5rem;
         cursor: pointer;
+        z-index: 4;
     }
 
     #mobile_menu.active {
