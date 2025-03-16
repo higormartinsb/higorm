@@ -168,10 +168,10 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    bottom: 0;
+    top: 0;
     width: 100%; /* Garantir que o menu ocupe toda a largura */
     background-color: white; /* Se quiser um fundo no menu */
-    z-index: 100; /* Garantir que o menu fique sobre outros elementos */
+    z-index: 1000; /* Garantir que o menu fique sobre outros elementos */
     height: 60px;
     border-top: 2px solid #ccc; /* Borda superior sutil, pode ajustar a cor e o tamanho */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para dar um efeito de profundidade */
