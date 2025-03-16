@@ -12,6 +12,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 1;
 }
 
 #nav_logo {
@@ -168,12 +169,11 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    top: 0;
     width: 100%; /* Garantir que o menu ocupe toda a largura */
-    background-color: white; /* Se quiser um fundo no menu */
+    background-color: var(--color-primary-1);
     z-index: 1000; /* Garantir que o menu fique sobre outros elementos */
     height: 60px;
-    border-top: 2px solid #ccc; /* Borda superior sutil, pode ajustar a cor e o tamanho */
+    border-bottom: 2px solid #ccc; /* Borda superior sutil, pode ajustar a cor e o tamanho */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para dar um efeito de profundidade */
 }
 
