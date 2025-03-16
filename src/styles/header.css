@@ -16,7 +16,7 @@ header {
 }
 
 #nav_logo {
-    width: 200px;
+    width: 400px;
     font-size: 24px;
     color: var(--color-primary-6);
 }
@@ -115,7 +115,11 @@ header {
 
     #nav_logo {
         font-size: 30px;
-        width: 300px;
+        width: 900px;
+    }
+
+    #navbar {
+        justify-content: center; /* Centraliza verticalmente */
     }
 
     /* Estilo inicial dos ícones, no modo normal (sem estar ativo) */
@@ -175,6 +179,7 @@ header {
     height: 60px;
     border-bottom: 2px solid #ccc; /* Borda superior sutil, pode ajustar a cor e o tamanho */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para dar um efeito de profundidade */
+    top: 65px;
 }
 
 .bottom-menu a {
