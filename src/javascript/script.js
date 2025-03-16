@@ -59,5 +59,16 @@ $(document).ready(function() {
     });
 });
 
+//Menu bottom fixo
+window.onscroll = function() {
+    let menu = document.getElementById("menuBottom");
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      menu.style.bottom = "0"; // Mostrar o menu após rolar 200px
+    } else {
+      menu.style.bottom = "-50px"; // Esconder o menu antes de rolar 200px
+    }
+  };
+  
+
 
 
