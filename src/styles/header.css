@@ -49,25 +49,68 @@ header {
     display: none; /* Ícones inicialmente escondidos */
     width: 100vw; /* Largura total da tela */
     justify-content: space-between; /* Espaça os ícones automaticamente */
-    color: var(--color-primary-6);
+    color: var(--color-neutral-1);
 }
 
 /* Quando a classe "active" é adicionada, os ícones aparecem */
 .menu-icons.active {
     display: block; /* Exibe os ícones */
-    font-size: 25px;
-}
-
-#icon-menu{
-    justify-content: space-between;
-    display: flex;
-    font-size: 35px;
+    font-size: 30px;
 }
 
 #container_menu{
-    height: 35px;
+    height: 30px;
     display: none;
     justify-content: space-between;
+}
+
+.cont-carrinho{
+    border-radius: 50%; /* Deixa o botão redondo */
+    border: none;
+    font-size: 30px;
+    color: var(--color-primary-6);
+}
+
+.cont-balao{
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    text-align: center;
+    padding: 5px; /* Pequeno ajuste para centralização melhor */
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    position: relative; /* Define como referência para posicionamento absoluto */
+    background-color: aliceblue;
+    border-radius: 100%;
+}
+
+.menu-item i {
+    font-size: 18px; /* Tamanho dos ícones */
+    margin-bottom: 5px; /* Espaço entre o ícone e o texto */
+}
+
+.menu-item span {
+    font-size: 11px; /* Texto menor abaixo do ícone */
+    line-height: 1; /* Ajusta a altura da linha para ficar mais compacto */
 }
 
 @media screen and (max-width: 1170px) {
@@ -77,8 +120,8 @@ header {
     }
 
     #nav_logo {
-        font-size: 35px;
-        width: 400px;
+        font-size: 30px;
+        width: 300px;
     }
 
     /* Estilo inicial dos ícones, no modo normal (sem estar ativo) */

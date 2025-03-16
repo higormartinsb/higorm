@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var cart = []; // Inicializando o carrinho
   const cartTableBody = document.querySelector(".cart-table tbody");
   const cartTotalSpan = document.querySelector(".cart-total-container span");
-  const cartBadge = document.getElementById("cart-count-badge");
+  const cartBadge = document.getElementById("cont-balao");
   const addToCartButtons = document.querySelectorAll(".dish .button-hover-background");
 
   // Função para atualizar o carrinho
