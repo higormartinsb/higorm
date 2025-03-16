@@ -114,34 +114,6 @@ section {
     to { opacity: 0; transform: translate(-50%, -50%) translateY(20px); }
 }
 
-.botao-flutuante {
-    position: fixed; /* Fixa o botão na tela */
-    bottom: 20px; /* Distância da parte inferior da tela */
-    right: 20px; /* Distância da parte direita da tela */
-    background-color: #007bff; /* Cor do fundo */
-    color: white; /* Cor do texto */
-    border: none; /* Retira borda */
-    border-radius: 50%; /* Deixa o botão redondo */
-    width: 60px; /* Largura do botão */
-    height: 60px; /* Altura do botão */
-    font-size: 30px; /* Tamanho da fonte */
-    display: flex;
-    flex-direction: column; /* Alinha os itens verticalmente */
-    align-items: center; /* Alinha o conteúdo no centro */
-    justify-content: center; /* Alinha o conteúdo no centro */
-    cursor: pointer; /* Mostra que o botão é clicável */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombras para dar um efeito de flutuação */
-    transition: transform 0.3s ease; /* Transição suave para animações */
-    z-index: 9999;
-}
-
-.botao-flutuante:hover {
-    transform: scale(1.1); /* Aumenta o tamanho do botão ao passar o mouse */
-}
-
-.botao-flutuante i {
-    font-size: 24px; /* Tamanho do ícone */
-}
 
 .botao-texto {
     font-size: 10px; /* Tamanho do texto */
@@ -163,35 +135,6 @@ section {
     align-items: center;
     justify-content: center;
     z-index: 10;
-}
-
-.botao-flutuante {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    z-index: 9999;
-}
-
-.botao-flutuante:hover {
-    transform: scale(1.1);
-}
-
-.botao-flutuante i {
-    font-size: 24px;
 }
 
 .botao-texto {

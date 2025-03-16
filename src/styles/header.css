@@ -64,17 +64,10 @@ header {
     justify-content: space-between;
 }
 
-.cont-carrinho{
-    border-radius: 50%; /* Deixa o botão redondo */
-    border: none;
-    font-size: 30px;
-    color: var(--color-primary-6);
-}
-
 .cont-balao{
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: 5px;
+    right: 5px;
     background-color: red;
     color: white;
     font-size: 12px;
@@ -167,4 +160,69 @@ header {
         list-style: none;
         text-align: center;
     } 
+}
+
+/*Menu Bottom*/
+.bottom-menu {
+    position: fixed;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    bottom: 0;
+    width: 100%; /* Garantir que o menu ocupe toda a largura */
+    background-color: white; /* Se quiser um fundo no menu */
+    z-index: 100; /* Garantir que o menu fique sobre outros elementos */
+    height: 60px;
+    border-top: 2px solid #ccc; /* Borda superior sutil, pode ajustar a cor e o tamanho */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para dar um efeito de profundidade */
+}
+
+.bottom-menu a {
+    position: relative;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /* Alinha o ícone e o texto na vertical */
+}
+
+.fa-shopping-cart {
+    font-size: 24px; /* Tamanho do ícone */
+}
+
+.cont-balao {
+    position: absolute;
+    top: -8px;  /* Ajuste para ficar um pouco acima do ícone */
+    right: -8px; /* Ajuste para alinhar ao canto superior direito do ícone */
+    background-color: red;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .fa-shopping-cart {
+        font-size: 20px; /* Ajuste do tamanho do ícone para telas menores */
+    }
+
+    .cont-balao {
+        top: -5px; /* Ajuste para telas menores */
+        right: -5px; /* Ajuste para telas menores */
+    }
+}
+
+@media (max-width: 480px) {
+    .fa-shopping-cart {
+        font-size: 18px; /* Ajuste adicional para telas bem pequenas */
+    }
+
+    .cont-balao {
+        top: -4px; /* Mais ajuste para telas pequenas */
+        right: -4px; /* Mais ajuste para telas pequenas */
+    }
 }
