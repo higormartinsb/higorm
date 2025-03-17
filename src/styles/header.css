@@ -114,8 +114,11 @@ header {
     }
 
     #nav_logo {
-        font-size: 30px;
+        font-size: 25px;
         width: 900px;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
     }
 
     #navbar {
@@ -170,7 +173,7 @@ header {
 /*Menu Bottom*/
 .bottom-menu {
     position: fixed;
-    display: flex;
+    display: none;
     justify-content: space-around;
     align-items: center;
     width: 100%; /* Garantir que o menu ocupe toda a largura */
@@ -211,6 +214,9 @@ header {
 }
 
 @media (max-width: 768px) {
+    .bottom-menu {
+        display: flex;
+    }
     .fa-shopping-cart {
         font-size: 20px; /* Ajuste do tamanho do ícone para telas menores */
     }
