@@ -183,7 +183,7 @@ header {
     z-index: 1000; /* Garantir que o menu fique sobre outros elementos */
     height: 60px;
     border-bottom: 1px solid #ccc; /* Borda superior sutil, pode ajustar a cor e o tamanho */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave para dar um efeito de profundidade */
+    
     top: 80px;
 }
 
