@@ -6,11 +6,12 @@
 }
 
 #cta {
-    width: 35%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     gap: 28px;
     margin-top: 5%;
+    line-height: 1.2; /* Ajuste esse valor conforme necessário */
 }
 
 #cta .title {
