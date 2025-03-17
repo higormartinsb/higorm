@@ -181,7 +181,7 @@ header {
     width: 100%; /* Garantir que o menu ocupe toda a largura */
     background-color: var(--color-primary-1);
     z-index: 1000; /* Garantir que o menu fique sobre outros elementos */
-    height: 60px;
+    height: 80px;
     border-bottom: 1px solid #ccc; /* Borda superior sutil, pode ajustar a cor e o tamanho */
     
     bottom:0;
