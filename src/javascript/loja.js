@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 3000); // Notificação desaparece após 3 segundos
   }
 
-  // Função de compra
+  // Função de compra e envio para WhatsApp
   window.makePurchase = function () {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     if (cart.length === 0) {
@@ -96,8 +96,32 @@ document.addEventListener("DOMContentLoaded", function() {
       return;
     }
 
-    alert("Compra realizada com sucesso!");
-    localStorage.removeItem('cart'); // Limpa o carrinho após a compra
+    // Criar a mensagem para o WhatsApp
+    let message = "Olá, gostaria de fazer esse pedido abaixo:\n\n";
+    let total = 0;
+
+    cart.forEach(item => {
+      const itemTotal = item.price * item.quantity;
+      message += `${item.name} - R$${item.price.toFixed(2)} x ${item.quantity} = R$${itemTotal.toFixed(2)}\n`;
+      total += itemTotal;
+    });
+
+    message += `\nTotal: R$${total.toFixed(2)}`;
+
+    // Codificar a mensagem para URL
+    message = encodeURIComponent(message);
+
+    // Número de telefone do WhatsApp (com código do país)
+    const phoneNumber = '5527988891413'; // Substitua com o número desejado
+
+    // Criar a URL do WhatsApp
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+
+    // Redirecionar para o WhatsApp
+    window.open(whatsappUrl, '_blank');
+
+    // Limpar o carrinho após a compra
+    localStorage.removeItem('cart');
     updateCart(); // Atualiza a exibição do carrinho
   };
 

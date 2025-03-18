@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&family=Roboto&family=Rock+Salt&display=swap');
-
 :root {
-  --white: #fff;
-  --red: #aa0505;
-  --gray: #959595;
-  --blue: #56c5db;
+  --color-primary-1: #fff9ea;
+  --color-primary-2: #ffe8b4;
+  --color-primary-3: #f8d477;
+  --color-primary-4: #ffe100;
+  --color-primary-5: #ffcb45;
+  --color-primary-6: #e9a209;
+
+  --color-neutral-0: #fff;
+  --color-neutral-1: #1d1d1d;
 }
 
 * {
@@ -269,7 +273,7 @@ hr {
 .purchase-button {
   display: flex;
   margin: 24px auto 0;
-  background: var(--blue);
+  background: var(--color-primary-6);
   color: var(--white);
   border: 0;
   border-radius: 6px;
@@ -282,7 +286,7 @@ hr {
 }
 
 .purchase-button:hover {
-  filter: brightness(0.8);
+  background: var(--color-primary-5);
 }
 
 .cart-total-container {

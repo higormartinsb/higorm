@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <link rel="icon" href="src/images/favicon/favicon.ico" type="image/x-icon">
-    <title>Landing page</title>
+    <title> Sanduba Quentinho || No Jeitinho</title>
 </head>
 <body>
     <header>
@@ -34,30 +34,7 @@
                 Peça aqui
             </button> 
         </nav>
-
-        <div id="mobile_menu">
-            <ul id="mobile_nav_list">
-                <li class="nav-item">
-                    <a href="#home">Início</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#menu">Cardápio</a>
-                </li>
-                <li class="nav-item">
-                    <a href="pedidos.html">Pedidos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#testimonials">Avaliações</a>
-                </li>
-            </ul>
-
-            <button class="btn-default">
-                Peça aqui
-            </button>
-        </div>
     </header>
-<!-- Notificacao-->
-    <div id="notification"></div>
 <!-- Menu bottom -->
 <nav class="bottom-menu">
     <a href="#home">
@@ -78,7 +55,7 @@
         <span>Perfil</span>
     </a>
 </nav>
-
+<!--Header-->
     <main id="content">
         <section id="home">
             <div class="shape"></div>
@@ -98,11 +75,11 @@
                         Ver cardápio
                     </a>
 
-                    <a href="tel:+55555555555" id="phone_button">
+                    <a href="tel:+5527988891413" id="phone_button">
                         <button class="btn-default">
                             <i class="fa-solid fa-phone"></i>
                         </button>
-                        (51) 92342-3243
+                        (27) 99999-8888
                     </a>
                 </div>
 
@@ -129,7 +106,7 @@
         <section id="menu">
             <h2 class="section-title">Cardápio</h2>
             <h3 class="section-subtitle">Nossos produtos deliciosos</h3>
-        
+        <!--Produto Inicio-->
             <div id="dishes">
                 <div class="dish">
                     <strong class="product-title">Sandubalho de Boi</strong>
@@ -152,7 +129,8 @@
                         <button type="button" class="button-hover-background" data-product="Sandubalho de Boi" onclick="addToCart(this)">Adicionar ao carrinho</button>
                     </div>
                 </div>
-                
+                <!--Produto Fim-->
+                <!--Produto Inicio-->
                 <div class="dish">
                     <strong class="product-title">Sandubalho de Frango</strong>
                     <img src="src/images/dish2.png" alt="Miniatura" class="product-image">
@@ -175,6 +153,55 @@
                     </div>
                 </div>
             </div>
+            <!--Produto Fim-->
+             <!--Produto Inicio-->
+             <div class="dish">
+                <strong class="product-title">Coca Cola 900ML</strong>
+                <img src="src/images/dish2.png" alt="Miniatura" class="product-image">
+                <div class="dish-heart">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <div class="dish-description">
+                    <p>900ml</p>
+                </div>
+                <div class="dish-rate">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+                <div class="dish-price">
+                    <span class="product-price">R$7,00</span>
+                    <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+                </div>
+            </div>
+        </div>
+        <!--Produto Fim-->
+        <!--Produto Inicio-->
+        <div class="dish">
+            <strong class="product-title">Coca Cola 1L</strong>
+            <img src="src/images/dish2.png" alt="Miniatura" class="product-image">
+            <div class="dish-heart">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <div class="dish-description">
+                <p>1l</p>
+            </div>
+            <div class="dish-rate">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <div class="dish-price">
+                <span class="product-price">R$10,00</span>
+                <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+            </div>
+        </div>
+    </div>
+    <!--Produto Fim-->
         </section>
               
         <section class="container normal-section">
@@ -201,7 +228,6 @@
             <button type="button" class="purchase-button" onclick="makePurchase()">Finalizar Compra</button>
             <button type="button" class="clear-cart-button" onclick="clearCart()">Limpar Carrinho</button>
         </section>
-
     </main>
 
     <footer>
@@ -209,7 +235,7 @@
 
         <div id="footer_items">
             <span id="copyright">
-                &copy 2024 Larissa Kich
+                &copy 2025 Higor Martins
             </span>
 
             <div class="social-media-buttons">
@@ -241,6 +267,8 @@
         }
       </script>
       <!--FIM PWA--> 
+      <!-- Notificacao-->
+    <div id="notification"></div>
     <script src="/src/javascript/script.js"></script>
     <script src="/src/javascript/loja.js"></script>
 </body>
