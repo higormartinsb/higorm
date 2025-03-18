@@ -12,7 +12,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let totalItems = 0;
 
     cart.forEach((item, index) => {
-      total += item.price * item.quantity;
+      const price = parseFloat(item.price); // Garante que o preço é um número
+      const itemTotal = price * item.quantity;
+      total += itemTotal;
       totalItems += item.quantity;
 
       const row = document.createElement("tr");
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
           <img src="${item.image}" alt="${item.name}" class="cart-item-image">
           <span>${item.name}</span>
         </td>
-        <td>R$${item.price.toFixed(2)}</td>
+        <td>R$${price.toFixed(2)}</td>
         <td>
           <button class="decrease-quantity" data-index="${index}">-</button>
           <span>${item.quantity}</span>
@@ -37,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     cartBadge.style.display = totalItems > 0 ? "inline-block" : "none";
 
     // Adiciona os eventos de clique para os botões de incremento, decremento e remoção
-    cartTableBody.addEventListener("click", function (event) {
+    cartTableBody.addEventListener("click", function(event) {
       const index = event.target.dataset.index;
       if (event.target.classList.contains("increase-quantity")) {
         cart[index].quantity++;
@@ -50,9 +52,8 @@ document.addEventListener("DOMContentLoaded", function() {
         cart.splice(index, 1);
       }
 
-      // Atualiza o carrinho no localStorage após a alteração
       localStorage.setItem('cart', JSON.stringify(cart));
-      updateCart(); // Atualiza a exibição do carrinho
+      updateCart();
     });
   }
 
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function addToCart(name, price, image) {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingItem = cart.find(item => item.name === name);
+    price = parseFloat(price); // Garante que o preço é um número
 
     if (existingItem) {
       existingItem.quantity++;
@@ -67,67 +69,57 @@ document.addEventListener("DOMContentLoaded", function() {
       cart.push({ name, price, image, quantity: 1 });
     }
 
-    // Atualiza o carrinho no localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
-
-    updateCart(); // Atualiza a exibição do carrinho
+    updateCart();
     showNotification(name, 'adicionado');
   }
 
   // Função para mostrar a notificação personalizada
   function showNotification(productName, action) {
     const notification = document.getElementById("notification");
-    if (action === 'adicionado') {
-      notification.textContent = `${productName} foi adicionado ao carrinho!`;
-    } else if (action === 'removido') {
-      notification.textContent = `${productName} foi removido do carrinho!`;
-    }
+    notification.textContent = action === 'adicionado' 
+      ? `${productName} foi adicionado ao carrinho!` 
+      : `${productName} foi removido do carrinho!`;
+      
     notification.classList.add('show');
     setTimeout(() => {
       notification.classList.remove('show');
-    }, 3000); // Notificação desaparece após 3 segundos
+    }, 3000);
   }
 
   // Função de compra e envio para WhatsApp
-  window.makePurchase = function () {
+  window.makePurchase = function() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     if (cart.length === 0) {
       alert("Seu carrinho está vazio!");
       return;
     }
 
-    // Criar a mensagem para o WhatsApp
     let message = "Olá, gostaria de fazer esse pedido abaixo:\n\n";
     let total = 0;
 
     cart.forEach(item => {
-      const itemTotal = item.price * item.quantity;
-      message += `${item.name} - R$${item.price.toFixed(2)} x ${item.quantity} = R$${itemTotal.toFixed(2)}\n`;
+      const price = parseFloat(item.price);
+      const itemTotal = price * item.quantity;
+      message += `${item.name} - R$${price.toFixed(2)} x ${item.quantity} = R$${itemTotal.toFixed(2)}\n`;
       total += itemTotal;
     });
 
     message += `\nTotal: R$${total.toFixed(2)}`;
-
-    // Codificar a mensagem para URL
     message = encodeURIComponent(message);
 
-    // Número de telefone do WhatsApp (com código do país)
-    const phoneNumber = '5527988891413'; // Substitua com o número desejado
-
-    // Criar a URL do WhatsApp
+    const phoneNumber = '5527988891413';
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
-    // Redirecionar para o WhatsApp
     window.open(whatsappUrl, '_blank');
 
-    // Limpar o carrinho após a compra
     localStorage.removeItem('cart');
-    updateCart(); // Atualiza a exibição do carrinho
+    updateCart();
   };
 
   // Adicionando os produtos ao carrinho
   addToCartButtons.forEach(button => {
-    button.addEventListener("click", function () {
+    button.addEventListener("click", function() {
       const dishElement = this.closest(".dish");
       const name = dishElement.querySelector(".product-title").textContent;
       const priceText = dishElement.querySelector(".product-price").textContent.replace("R$", "").replace(",", ".");
@@ -144,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Função para limpar o carrinho
 function clearCart() {
-  localStorage.removeItem('cart'); // Remove o carrinho do localStorage
-  updateCart(); // Atualiza a exibição do carrinho
+  localStorage.removeItem('cart');
+  updateCart();
   alert('Carrinho limpo!');
 }
