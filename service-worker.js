@@ -2,13 +2,14 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open("app-cache").then((cache) => {
       return cache.addAll([
-        "/", 
-        "/index.html", 
-        "/manifest.json", 
-        "/css/styles.css", 
-        "/js/scripts.js", 
-        "/img/icons/image512x512.png", 
-        "/img/icons/image192x192.png"
+        "/higorm/",
+        "/higorm/index.html",
+        "/higorm/pedidos.html",
+        "/higorm/manifest.json",
+        "/higorm/css/styles.css",
+        "/higorm/js/scripts.js",
+        "/higorm/img/icons/image512x512.png",
+        "/higorm/img/icons/image192x192.png"
       ]);
     })
   );
