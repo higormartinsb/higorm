@@ -36,27 +36,29 @@
             </button> 
         </nav>
     </header>
-<!-- Menu bottom -->
-<nav class="bottom-menu">
-    <a href="#home">
-        <i class="fa-solid fa-home"></i>
-        <span>Início</span>
-    </a>
-    <a href="#pedidos">
-        <i class="fa-solid fa-utensils"></i>
-        <span>Cardapio</span>
-    </a>
-    <a href="pedidos.html" class="carrinho">
-        <i class="fa-solid fa-shopping-cart"></i>
-        <span id="cont-balao" class="cont-balao">0</span>
-        <span>Pedidos</span>
-    </a>
-    <a href="#perfil">
-        <i class="fa-solid fa-user"></i>
-        <span>Cupom</span>
-    </a>
-</nav>
-<!--Header-->
+
+    <!-- Menu bottom -->
+    <nav class="bottom-menu">
+        <a href="#home">
+            <i class="fa-solid fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="#pedidos">
+            <i class="fa-solid fa-utensils"></i>
+            <span>Cardapio</span>
+        </a>
+        <a href="pedidos.html" class="carrinho">
+            <i class="fa-solid fa-shopping-cart"></i>
+            <span id="cont-balao" class="cont-balao">0</span>
+            <span>Pedidos</span>
+        </a>
+        <a href="#perfil">
+            <i class="fa-solid fa-user"></i>
+            <span>Cupom</span>
+        </a>
+    </nav>
+
+    <!-- Header -->
     <main id="content">
         <section id="home">
             <div class="shape"></div>
@@ -107,104 +109,187 @@
         <section id="menu">
             <h2 class="section-title">Cardápio</h2>
             <h3 class="section-subtitle">Nossos produtos deliciosos</h3>
-        <!--Produto Inicio-->
             <div id="dishes">
+                <!-- Sandubalho de Boi -->
                 <div class="dish">
-                    <strong class="product-title">Sandubalho de Boi</strong>
-                    <img src="src/images/dish.png" alt="Camiseta" class="product-image">
-                    <div class="dish-heart">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div class="dish-description">
-                        <p>Descrição do produto</p>
-                    </div>
-                    <div class="dish-rate">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
+                    <img src="src/images/dish.png" alt="Sandubalho de Boi" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Boi</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão brioche, molho bife 140g, queijo cheddar, tiras de bacon, cebola caramelizada ao molho barbecue</p>
+                        </div>
                     </div>
                     <div class="dish-price">
                         <span class="product-price">R$39,90</span>
                         <button type="button" class="button-hover-background" data-product="Sandubalho de Boi" onclick="addToCart(this)">Adicionar ao carrinho</button>
                     </div>
                 </div>
-                <!--Produto Fim-->
-                <!--Produto Inicio-->
+
+                <!-- Sandubalho de Frango -->
                 <div class="dish">
-                    <strong class="product-title">Sandubalho de Frango</strong>
-                    <img src="src/images/dish2.png" alt="Miniatura" class="product-image">
-                    <div class="dish-heart">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-                    <div class="dish-description">
-                        <p>Descrição do produto</p>
-                    </div>
-                    <div class="dish-rate">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
+                    <img src="src/images/dish2.png" alt="Sandubalho de Frango" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Frango</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão de hambúrguer, peito de frango grelhado, queijo muçarela, molho de mostarda e mel</p>
+                        </div>
                     </div>
                     <div class="dish-price">
-                        <span class="product-price">R$69,90</span>
+                        <span class="product-price">R$34,90</span>
                         <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
                     </div>
                 </div>
-            </div>
-            <!--Produto Fim-->
-             <!--Produto Inicio-->
-             <div class="dish">
-                <strong class="product-title">Coca Cola 900ML</strong>
-                <img src="src/images/dish2.png" alt="Miniatura" class="product-image">
-                <div class="dish-heart">
-                    <i class="fa-solid fa-heart"></i>
+                
+                <!-- Sandubalho de Calabresa -->
+                <div class="dish">
+                    <img src="src/images/dish2.png" alt="Sandubalho de Frango" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Frango</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão de hambúrguer, peito de frango grelhado, queijo muçarela, molho de mostarda e mel</p>
+                        </div>
+                    </div>
+                    <div class="dish-price">
+                        <span class="product-price">R$34,90</span>
+                        <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+                    </div>
                 </div>
-                <div class="dish-description">
-                    <p>900ml</p>
+                
+                <!-- Sandubalho de Calabresa -->
+                <div class="dish">
+                    <img src="src/images/dish2.png" alt="Sandubalho de Frango" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Frango</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão de hambúrguer, peito de frango grelhado, queijo muçarela, molho de mostarda e mel</p>
+                        </div>
+                    </div>
+                    <div class="dish-price">
+                        <span class="product-price">R$34,90</span>
+                        <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+                    </div>
                 </div>
-                <div class="dish-rate">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
+
+                <!-- Sandubalho de Calabresa -->
+                <div class="dish">
+                    <img src="src/images/dish2.png" alt="Sandubalho de Frango" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Frango</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão de hambúrguer, peito de frango grelhado, queijo muçarela, molho de mostarda e mel</p>
+                        </div>
+                    </div>
+                    <div class="dish-price">
+                        <span class="product-price">R$34,90</span>
+                        <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+                    </div>
                 </div>
-                <div class="dish-price">
-                    <span class="product-price">R$7,00</span>
-                    <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+
+                <!-- Sandubalho de Calabresa -->
+                <div class="dish">
+                    <img src="src/images/dish2.png" alt="Sandubalho de Frango" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Frango</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão de hambúrguer, peito de frango grelhado, queijo muçarela, molho de mostarda e mel</p>
+                        </div>
+                    </div>
+                    <div class="dish-price">
+                        <span class="product-price">R$34,90</span>
+                        <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+                    </div>
                 </div>
+
+                <!-- Sandubalho de Calabresa -->
+                <div class="dish">
+                    <img src="src/images/dish2.png" alt="Sandubalho de Frango" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Frango</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão de hambúrguer, peito de frango grelhado, queijo muçarela, molho de mostarda e mel</p>
+                        </div>
+                    </div>
+                    <div class="dish-price">
+                        <span class="product-price">R$34,90</span>
+                        <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+
+                <!-- Sandubalho de Calabresa -->
+                <div class="dish">
+                    <img src="src/images/dish2.png" alt="Sandubalho de Frango" class="product-image">
+                    <div class="dish-info">
+                        <strong class="product-title">Sandubalho de Frango</strong>
+                        <div class="dish-rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div class="dish-description">
+                            <p>Pão de hambúrguer, peito de frango grelhado, queijo muçarela, molho de mostarda e mel</p>
+                        </div>
+                    </div>
+                    <div class="dish-price">
+                        <span class="product-price">R$34,90</span>
+                        <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+
+                <!-- Adicione mais itens seguindo o mesmo formato -->
             </div>
-        </div>
-        <!--Produto Fim-->
-        <!--Produto Inicio-->
-        <div class="dish">
-            <strong class="product-title">Coca Cola 1L</strong>
-            <img src="src/images/dish2.png" alt="Miniatura" class="product-image">
-            <div class="dish-heart">
-                <i class="fa-solid fa-heart"></i>
-            </div>
-            <div class="dish-description">
-                <p>1l</p>
-            </div>
-            <div class="dish-rate">
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-                <i class="fa-solid fa-star"></i>
-            </div>
-            <div class="dish-price">
-                <span class="product-price">R$10,00</span>
-                <button type="button" class="button-hover-background" data-product="Sandubalho de Frango" onclick="addToCart(this)">Adicionar ao carrinho</button>
-            </div>
-        </div>
-    </div>
-    <!--Produto Fim-->
         </section>
-              
+
         <section class="container normal-section">
             <h2 class="section-title">Carrinho</h2>
             <table class="cart-table">
@@ -254,7 +339,8 @@
             </div>
         </div>
     </footer>
-    <!--Conecxao-->
+
+    <!-- Conecxao-->
     <div class="popup">
         <div class="icon"><i class=""></i></div>
         <div class="details">
@@ -262,8 +348,9 @@
           <p class="desc"></p>
           <button class="reconnect">Reconecte-se agora</button>
         </div>
-      </div>
-    <!--Inicio PWA-->
+    </div>
+
+    <!-- Inicio PWA-->
     <script>
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker
@@ -275,9 +362,9 @@
               console.log("Falha ao registrar o Service Worker:", error);
             });
         }
-      </script>
-      <!--FIM PWA--> 
-      <!-- Notificacao-->
+    </script>
+    <!-- FIM PWA--> 
+    <!-- Notificação-->
     <div id="notification"></div>
     <script src="src/javascript/conexao.js"></script>
     <script src="src/javascript/script.js"></script>
