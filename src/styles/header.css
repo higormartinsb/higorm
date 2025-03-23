@@ -214,7 +214,7 @@ header {
     justify-content: center;
 }
 
-@media (max-width: 1170px) {
+@media (max-width: 768px) {
     .bottom-menu {
         display: flex;
     }
