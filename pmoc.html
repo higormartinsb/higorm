@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema PMOC - QRCode</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #qrcode { margin-top: 20px; }
+    #reader { width: 300px; margin-top: 20px; }
+    button { margin: 10px 0; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+
+  <h2>Controle PMOC - Ar Condicionado</h2>
+
+  <button onclick="gerarQRCode()">Gerar QR Code</button>
+  <div id="qrcode"></div>
+  <p id="codigo-gerado"></p>
+
+  <hr>
+
+  <button onclick="lerQRCode()">Ler QR Code</button>
+  <div id="reader"></div>
+
+  <script>
+    let codigoUnico = '';
+
+    function gerarQRCode() {
+      codigoUnico = 'PMOC-' + Date.now();
+      document.getElementById('codigo-gerado').innerText = 'Código: ' + codigoUnico;
+      document.getElementById('qrcode').innerHTML = '';
+      new QRCode(document.getElementById("qrcode"), {
+        text: codigoUnico,
+        width: 256,
+        height: 256
+      });
+    }
+
+    function lerQRCode() {
+      const html5QrCode = new Html5Qrcode("reader");
+      const config = { fps: 10, qrbox: 250 };
+
+      html5QrCode.start(
+        { facingMode: "environment" },
+        config,
+        (decodedText, decodedResult) => {
+          html5QrCode.stop();
+
+          // Simulando consulta no banco de dados (localStorage)
+          const jaCadastrado = localStorage.getItem(decodedText);
+
+          if (jaCadastrado) {
+            window.location.href = "cliente.html?codigo=" + encodeURIComponent(decodedText);
+          } else {
+            window.location.href = "cadastro.html?codigo=" + encodeURIComponent(decodedText);
+          }
+        },
+        (errorMessage) => {
+          // erro ao ler
+        }
+      );
+    }
+  </script>
+
+</body>
+</html>
