@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema PMOC - Ar Condicionado</title>
+    <!-- Dependências -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qr-scanner/1.2.0/qr-scanner.min.js"></script>
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1976d2;
+            --primary-dark: #115293;
+            --accent: #00bcd4;
+            --background: #f5f7fa;
+            --surface: #fff;
+            --text: #222;
+            --border-radius: 16px;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08), 0 1.5px 4px rgba(0,0,0,0.08);
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 430px;
+            margin: 40px auto;
+            padding: 30px 24px;
+            background: var(--surface);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        h1, h2, h3 {
+            color: var(--primary-dark);
+            text-align: center;
+        }
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .active {
+            display: block !important;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            margin: 12px 0;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.09);
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover, .btn:focus {
+            background: var(--primary-dark);
+            box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
+        }
+        .btn.secondary {
+            background: #eee;
+            color: var(--primary-dark);
+            margin-right: 8px;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.98rem;
+            margin-bottom: 6px;
+            color: #444;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1.5px solid #d2e3ef;
+            border-radius: 7px;
+            font-size: 1rem;
+            background: #f7fafc;
+            transition: border 0.2s;
+            outline: none;
+        }
+        .form-group input:focus {
+            border: 1.5px solid var(--primary);
+            background: #fff;
+        }
+        #qrcode, .qr-item {
+            display: flex;
+            justify-content: center;
+            margin: 18px 0 8px 0;
+        }
+        #qr-video {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.12);
+            margin: 18px auto 10px auto;
+            display: block;
+        }
+        #scan-result {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.05rem;
+            color: var(--primary-dark);
+        }
+        .client-info {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 18px;
+        }
+        .client-info span {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .history-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .history-list li {
+            background: #f1f8e9;
+            border-radius: 7px;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            font-size: 0.98rem;
+            color: #33691e;
+            box-shadow: 0 1px 4px rgba(76,175,80,0.08);
+        }
+        .generated-codes {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        .qr-item {
+            display: inline-block;
+            margin: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            flex-direction: column;
+            align-items: center;
+        }
+        .qr-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 3px;
+            word-break: break-all;
+            text-align: center;
+        }
+        #linked-qr {
+            background: #e9ecef;
+            cursor: not-allowed;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 18px 6px;
+            }
+            h1 { font-size: 1.5rem;}
+        }
+        /* Floating action button for scan */
+        .fab {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            background: var(--accent);
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 16px rgba(0,188,212,0.18);
+            cursor: pointer;
+            z-index: 1000;
+            transition: background 0.2s;
+        }
+        .fab:hover { background: #0097a7; }
+        /* Toast */
+        .toast {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 60px;
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-shadow: 0 2px 12px rgba(25, 118, 210, 0.18);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 2000;
+        }
+        .toast.show { opacity: 1; pointer-events: auto;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema PMOC</h1>
+        <!-- Tela Principal -->
+        <div id="main-screen" class="screen active">
+            <button class="btn" onclick="showScreen('scanner')">🔍 Ler QR Code</button>
+            <button class="btn" onclick="showScreen('gerador')">➕ Novo Cadastro</button>
+            <button class="btn secondary" onclick="generateUnlinkedQR()">🆕 Gerar QR Code para Impressão</button>
+            <div class="generated-codes">
+                <h3>QR Codes Disponíveis para Impressão</h3>
+                <div id="qrcode-list"></div>
+            </div>
+        </div>
+        <!-- Tela de Scanner -->
+        <div id="scanner-screen" class="screen">
+            <button class="btn secondary" onclick="stopScannerAndBack()">← Voltar</button>
+            <h2>Ler QR Code</h2>
+            <video id="qr-video"></video>
+            <div id="scan-result"></div>
+        </div>
+        <!-- Tela de Geração QR Code e Cadastro -->
+        <div id="gerador-screen" class="screen">
+            <button class="btn secondary" onclick="showScreen('main')">← Voltar</button>
+            <h2>Novo Cadastro</h2>
+            <div class="form-group">
+                <label for="client-name">Nome do Cliente</label>
+                <input type="text" id="client-name" placeholder="Ex: João da Silva">
+            </div>
+            <div class="form-group">
+                <label for="equipment-model">Modelo do Equipamento</label>
+                <input type="text" id="equipment-model" placeholder="Ex: Split 12000 BTUs">
+            </div>
+            <div class="form-group">
+                <label for="installation-date">Data de Instalação</label>
+                <input type="date" id="installation-date">
+            </div>
+            <div class="form-group">
+                <label>Vincular QR Code Existente</label>
+                <button type="button" class="btn secondary" onclick="openLinkingScanner()">
+                    🔍 Escanear QR Code
+                </button>
+                <input type="text" id="linked-qr" placeholder="Escaneie o QR Code" readonly>
+            </div>
+            <button class="btn" onclick="saveClient()">Salvar Cadastro</button>
+        </div>
+        <!-- Tela de Cliente -->
+        <div id="client-screen" class="screen">
+            <button class="btn secondary" onclick="showScreen('main')">← Voltar</button>
+            <h2>Dados do Cliente</h2>
+            <div class="client-info">
+                <div>Nome: <span id="client-name-view"></span></div>
+                <div>Modelo: <span id="equipment-model-view"></span></div>
+                <div>Instalação: <span id="installation-date-view"></span></div>
+            </div>
+            <h3>Histórico de Manutenções</h3>
+            <ul class="history-list" id="maintenance-history"></ul>
+        </div>
+    </div>
+    <div class="fab" onclick="showScreen('scanner')" title="Ler QR Code">
+        <span>🔍</span>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+        // Banco de Dados
+        const db = new Dexie('PMOC_DB');
+        db.version(2).stores({
+            clients: '++id,nome,modelo,dataInstalacao,qrCodeId,manutencoes',
+            unlinkedQRCodes: 'id,createdAt'
+        });
+
+        let qrScanner = null;
+        let linkingScanner = null;
+        let currentClientId = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', async () => {
+            await renderUnlinkedQRCodes();
+        });
+
+        // Telas
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`${screenId}-screen`).classList.add('active');
+            if(screenId === 'scanner') initScanner();
+            else if(qrScanner) qrScanner.stop();
+            if(screenId === 'gerador') {
+                clearCadastroForm();
+                if(linkingScanner) linkingScanner.stop();
+            }
+        }
+        function stopScannerAndBack() {
+            if(qrScanner) qrScanner.stop();
+            if(linkingScanner) linkingScanner.stop();
+            showScreen('main');
+        }
+
+        // Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2300);
+        }
+
+        // ---------------- QR CODES NÃO VINCULADOS -----------------
+        async function generateUnlinkedQR() {
+            const qrId = `UNLINKED-${crypto.randomUUID()}`;
+            await db.unlinkedQRCodes.add({id: qrId, createdAt: new Date()});
+            await renderUnlinkedQRCodes();
+            showToast("Novo QR Code gerado!");
+        }
+        async function renderUnlinkedQRCodes() {
+            const list = document.getElementById('qrcode-list');
+            list.innerHTML = '';
+            const qrCodes = await db.unlinkedQRCodes.toArray();
+            if(qrCodes.length === 0) {
+                list.innerHTML = "<div style='color:#888;font-size:0.99rem;text-align:center'>Nenhum QR Code disponível. Clique em 'Gerar QR Code para Impressão'.</div>";
+                return;
+            }
+            qrCodes.forEach(qr => {
+                const div = document.createElement('div');
+                div.className = 'qr-item';
+                const qrContainer = document.createElement('div');
+                new QRCode(qrContainer, {
+                    text: qr.id,
+                    width: 100,
+                    height: 100,
+                    colorDark: "#1976d2",
+                    colorLight: "#fff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                div.appendChild(qrContainer);
+                const label = document.createElement('div');
+                label.className = 'qr-label';
+                label.textContent = qr.id;
+                div.appendChild(label);
+                list.appendChild(div);
+            });
+        }
+
+        // ---------------- SCANNER PRINCIPAL -----------------
+        async function initScanner() {
+            if (qrScanner) qrScanner.destroy();
+            qrScanner = new QrScanner(
+                document.getElementById('qr-video'),
+                result => handleScan(result.data),
+                { highlightScanRegion: true }
+            );
+            await qrScanner.start();
+            document.getElementById('scan-result').textContent = '';
+        }
+
+        async function handleScan(content) {
+            // Verifica se está vinculado a cliente
+            const client = await db.clients.where('qrCodeId').equals(content).first();
+            if(client) {
+                currentClientId = client.id;
+                showClientData(client);
+                showToast("Cliente encontrado!");
+                if(qrScanner) qrScanner.stop();
+                return;
+            }
+            // Verifica se é QR não vinculado
+            const unlinked = await db.unlinkedQRCodes.get(content);
+            if(unlinked) {
+                showToast("QR Code disponível para cadastro! Faça o cadastro.");
+                setTimeout(() => {
+                    document.getElementById('linked-qr').value = content;
+                    showScreen('gerador');
+                }, 1400);
+                if(qrScanner) qrScanner.stop();
+                return;
+            }
+            // Inválido
+            showToast("QR Code inválido!");
+        }
+
+        // ---------------- SCANNER PARA VINCULAR QR NO CADASTRO -----------------
+        async function openLinkingScanner() {
+            showScreen('scanner');
+            if (linkingScanner) linkingScanner.destroy();
+            linkingScanner = new QrScanner(
+                document.getElementById('qr-video'),
+                result => handleLinkingScan(result.data),
+                { highlightScanRegion: true }
+            );
+            await linkingScanner.start();
+            document.getElementById('scan-result').textContent = 'Escaneie um QR Code não vinculado para associar ao cliente.';
+        }
+
+        async function handleLinkingScan(content) {
+            const exists = await db.unlinkedQRCodes.get(content);
+            if(exists) {
+                document.getElementById('linked-qr').value = content;
+                if(linkingScanner) linkingScanner.stop();
+                showScreen('gerador');
+                showToast('QR Code vinculado com sucesso!');
+            } else {
+                showToast('QR Code inválido ou já vinculado');
+            }
+        }
+
+        // ---------------- CADASTRO DE CLIENTE -----------------
+        function clearCadastroForm() {
+            document.getElementById('client-name').value = '';
+            document.getElementById('equipment-model').value = '';
+            document.getElementById('installation-date').value = '';
+            document.getElementById('linked-qr').value = '';
+        }
+
+        async function saveClient() {
+            const nome = document.getElementById('client-name').value.trim();
+            const modelo = document.getElementById('equipment-model').value.trim();
+            const dataInstalacao = document.getElementById('installation-date').value;
+            const qrId = document.getElementById('linked-qr').value.trim();
+            if(!nome || !modelo || !dataInstalacao || !qrId) {
+                showToast("Preencha todos os campos e vincule um QR Code!");
+                return;
+            }
+            // Verifica se QR ainda está disponível
+            const exists = await db.unlinkedQRCodes.get(qrId);
+            if(!exists) {
+                showToast("QR Code já vinculado ou inválido!");
+                return;
+            }
+            await db.clients.add({
+                nome, modelo, dataInstalacao, qrCodeId: qrId, manutencoes: []
+            });
+            await db.unlinkedQRCodes.delete(qrId);
+            await renderUnlinkedQRCodes();
+            clearCadastroForm();
+            showToast("Cliente cadastrado com sucesso!");
+            setTimeout(() => showScreen('main'), 1400);
+        }
+
+        // ---------------- EXIBIÇÃO DE CLIENTE -----------------
+        async function showClientData(client) {
+            document.getElementById('client-name-view').textContent = client.nome;
+            document.getElementById('equipment-model-view').textContent = client.modelo;
+            document.getElementById('installation-date-view').textContent = 
+                new Date(client.dataInstalacao).toLocaleDateString('pt-BR');
+            const historyList = document.getElementById('maintenance-history');
+            historyList.innerHTML = (client.manutencoes && client.manutencoes.length > 0)
+                ? client.manutencoes.map(m => 
+                    `<li>${new Date(m.data).toLocaleDateString('pt-BR')} - ${m.descricao}</li>`
+                ).join('')
+                : '<li>Nenhuma manutenção registrada</li>';
+            showScreen('client');
+        }
+    </script>
+</body>
+</html>
