@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
     <style>
+        /* (Mantenha seus estilos, sem alterações) */
         :root {
             --primary: #1976d2;
             --primary-dark: #115293;
@@ -294,7 +295,6 @@
         let currentClientId = null;
         let scannerMode = "main"; // "main" ou "link"
 
-        // Inicialização
         document.addEventListener('DOMContentLoaded', async () => {
             await renderUnlinkedQRCodes();
         });
@@ -304,7 +304,7 @@
             document.getElementById(`${screenId}-screen`).classList.add('active');
             if(screenId === 'scanner') {
                 scannerMode = "main";
-                setTimeout(initScanner, 250); // Pequeno delay para garantir que o vídeo está visível
+                setTimeout(initScanner, 250);
             } else if(qrScanner) {
                 qrScanner.stop();
             }
@@ -388,8 +388,8 @@
             }
         }
 
+        // CORREÇÃO: handleScan agora vai direto para o cadastro ao ler QR inválido
         async function handleScan(content) {
-            // Verifica se está vinculado a cliente
             const client = await db.clients.where('qrCodeId').equals(content).first();
             if(client) {
                 currentClientId = client.id;
@@ -398,20 +398,23 @@
                 showToast("Cliente encontrado!");
                 return;
             }
-            // Verifica se é QR não vinculado
             const unlinked = await db.unlinkedQRCodes.get(content);
             if(unlinked) {
                 showToast("QR Code disponível para cadastro! Faça o cadastro.");
                 setTimeout(() => {
                     document.getElementById('linked-qr').value = content;
                     showScreen('gerador');
-                }, 1400);
+                }, 800);
                 if(qrScanner) qrScanner.stop();
                 return;
             }
-            // Inválido
-            showToast("QR Code inválido!");
-            document.getElementById('scan-result').textContent = "QR Code inválido!";
+            // QR inválido: já vai para cadastro e preenche o campo
+            showToast("QR Code inválido! Cadastre este QR Code.");
+            setTimeout(() => {
+                document.getElementById('linked-qr').value = content;
+                showScreen('gerador');
+            }, 800);
+            if(qrScanner) qrScanner.stop();
         }
 
         // SCANNER PARA VINCULAR QR NO CADASTRO
@@ -435,7 +438,6 @@
             }
         }
 
-        // CADASTRO DE CLIENTE
         function clearCadastroForm() {
             document.getElementById('client-name').value = '';
             document.getElementById('equipment-model').value = '';
@@ -452,7 +454,6 @@
                 showToast("Preencha todos os campos e vincule um QR Code!");
                 return;
             }
-            // Verifica se QR ainda está disponível
             const exists = await db.unlinkedQRCodes.get(qrId);
             if(!exists) {
                 showToast("QR Code já vinculado ou inválido!");
@@ -468,7 +469,6 @@
             setTimeout(() => showScreen('main'), 1400);
         }
 
-        // EXIBIÇÃO DE CLIENTE
         async function showClientData(client) {
             document.getElementById('client-name-view').textContent = client.nome;
             document.getElementById('equipment-model-view').textContent = client.modelo;
