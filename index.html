@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qr-scanner/1.4.2/qr-scanner.umd.min.js"></script>
     <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -87,7 +88,7 @@
             margin-bottom: 6px;
             color: #444;
         }
-        .form-group input {
+        .form-group input, .form-group select {
             width: 100%;
             padding: 10px 12px;
             border: 1.5px solid #d2e3ef;
@@ -97,7 +98,7 @@
             transition: border 0.2s;
             outline: none;
         }
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus {
             border: 1.5px solid var(--primary);
             background: #fff;
         }
@@ -132,18 +133,29 @@
             font-weight: 700;
             color: var(--primary-dark);
         }
-        .history-list {
-            list-style: none;
-            padding-left: 0;
+        .equipment-list {
+            margin: 0 0 20px 0;
         }
-        .history-list li {
-            background: #f1f8e9;
-            border-radius: 7px;
-            margin-bottom: 8px;
-            padding: 8px 12px;
-            font-size: 0.98rem;
-            color: #33691e;
-            box-shadow: 0 1px 4px rgba(76,175,80,0.08);
+        .equipment-item {
+            background: #f8f9fa;
+            padding: 12px 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            font-size: 1rem;
+        }
+        .equipment-item .equip-model {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        .equipment-item .equip-location {
+            color: #666;
+            font-size: 0.93em;
+        }
+        .equipment-item .equip-date {
+            color: #888;
+            font-size: 0.85em;
+            margin-top: 4px;
         }
         .generated-codes {
             margin-top: 2rem;
@@ -171,6 +183,30 @@
         #linked-qr {
             background: #e9ecef;
             cursor: not-allowed;
+        }
+        .client-list {
+            margin: 0 0 20px 0;
+        }
+        .client-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .client-item:hover {
+            transform: translateY(-2px);
+            background: #e3f2fd;
+        }
+        .client-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        .client-meta {
+            color: #666;
+            font-size: 0.93em;
         }
         @media (max-width: 600px) {
             .container {
@@ -217,16 +253,143 @@
             z-index: 2000;
         }
         .toast.show { opacity: 1; pointer-events: auto;}
+        /* MENU MOBILE MODERNO */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 260px;
+            height: 100vh;
+            background: var(--surface);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.12);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1100;
+            padding: 24px 0 0 0;
+        }
+        .mobile-menu.active {
+            left: 0;
+            display: block;
+        }
+        .menu-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 1099;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .hamburger {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 1200;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .hamburger span {
+            width: 32px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 24px 32px 24px;
+        }
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px;
+            border-radius: 8px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 1.08rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .menu-item:hover {
+            background: rgba(25, 118, 210, 0.07);
+        }
+        .menu-item .material-symbols-rounded {
+            font-size: 24px;
+            color: var(--primary);
+        }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            #main-screen .btn:not(.fab) { display: none; }
+            .mobile-menu { display: block; }
+        }
     </style>
 </head>
 <body>
+    <!-- MENU MOBILE -->
+    <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <nav class="mobile-menu" id="mobileMenu">
+        <div class="menu-header">
+            <h2 style="font-size:1.2rem;margin:0;color:var(--primary-dark)">Menu</h2>
+            <span class="material-symbols-rounded" id="closeMenuBtn" style="cursor:pointer;font-size:2rem;">close</span>
+        </div>
+        <div class="menu-items">
+            <a href="#" class="menu-item" onclick="showScreen('scanner')">
+                <span class="material-symbols-rounded">qr_code_scanner</span>
+                Scanner QR Code
+            </a>
+            <a href="#" class="menu-item" onclick="showScreen('gerador')">
+                <span class="material-symbols-rounded">person_add</span>
+                Novo Cliente
+            </a>
+            <a href="#" class="menu-item" onclick="generateUnlinkedQR()">
+                <span class="material-symbols-rounded">qr_code_2</span>
+                Gerar QR Codes
+            </a>
+            <a href="#" class="menu-item" onclick="showClientList()">
+                <span class="material-symbols-rounded">groups</span>
+                Clientes
+            </a>
+        </div>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
     <div class="container">
         <h1>Sistema PMOC</h1>
         <!-- Tela Principal -->
         <div id="main-screen" class="screen active">
             <button class="btn" onclick="showScreen('scanner')">🔍 Ler QR Code</button>
-            <button class="btn" onclick="showScreen('gerador')">➕ Novo Cadastro</button>
+            <button class="btn" onclick="showScreen('gerador')">➕ Novo Cliente</button>
             <button class="btn secondary" onclick="generateUnlinkedQR()">🆕 Gerar QR Code para Impressão</button>
+            <button class="btn secondary" onclick="showClientList()">👥 Clientes Cadastrados</button>
             <div class="generated-codes">
                 <h3>QR Codes Disponíveis para Impressão</h3>
                 <div id="qrcode-list"></div>
@@ -239,42 +402,53 @@
             <video id="qr-video" autoplay muted playsinline></video>
             <div id="scan-result"></div>
         </div>
-        <!-- Tela de Geração QR Code e Cadastro -->
+        <!-- Tela de Cadastro de Cliente -->
         <div id="gerador-screen" class="screen">
             <button class="btn secondary" onclick="showScreen('main')">← Voltar</button>
-            <h2>Novo Cadastro</h2>
+            <h2>Novo Cliente</h2>
             <div class="form-group">
                 <label for="client-name">Nome do Cliente</label>
                 <input type="text" id="client-name" placeholder="Ex: João da Silva">
             </div>
-            <div class="form-group">
-                <label for="equipment-model">Modelo do Equipamento</label>
-                <input type="text" id="equipment-model" placeholder="Ex: Split 12000 BTUs">
-            </div>
-            <div class="form-group">
-                <label for="installation-date">Data de Instalação</label>
-                <input type="date" id="installation-date">
-            </div>
-            <div class="form-group">
-                <label>Vincular QR Code Existente</label>
-                <button type="button" class="btn secondary" id="scan-link-btn" onclick="openLinkingScanner()">
-                    🔍 Escanear QR Code
-                </button>
-                <input type="text" id="linked-qr" placeholder="Escaneie o QR Code" readonly>
-            </div>
-            <button class="btn" onclick="saveClient()">Salvar Cadastro</button>
+            <button class="btn" onclick="saveClient()">Salvar Cliente</button>
         </div>
         <!-- Tela de Cliente -->
         <div id="client-screen" class="screen">
-            <button class="btn secondary" onclick="showScreen('main')">← Voltar</button>
+            <button class="btn secondary" onclick="showClientList()">← Voltar</button>
             <h2>Dados do Cliente</h2>
             <div class="client-info">
                 <div>Nome: <span id="client-name-view"></span></div>
-                <div>Modelo: <span id="equipment-model-view"></span></div>
-                <div>Instalação: <span id="installation-date-view"></span></div>
+                <div>Total de Equipamentos: <span id="equipment-count"></span></div>
             </div>
-            <h3>Histórico de Manutenções</h3>
-            <ul class="history-list" id="maintenance-history"></ul>
+            <h3>Equipamentos Instalados</h3>
+            <div class="equipment-list" id="equipment-list"></div>
+            <button class="btn" onclick="showAddEquipmentForm()">➕ Novo Equipamento</button>
+        </div>
+        <!-- Tela de Lista de Clientes -->
+        <div id="client-list-screen" class="screen">
+            <button class="btn secondary" onclick="showScreen('main')">← Voltar</button>
+            <h2>Clientes Cadastrados</h2>
+            <div class="client-list" id="client-list"></div>
+        </div>
+        <!-- Tela de Cadastro de Equipamento -->
+        <div id="add-equipment-screen" class="screen">
+            <button class="btn secondary" onclick="showClientData(currentClientId)">← Voltar</button>
+            <h2>Novo Equipamento</h2>
+            <div class="form-group">
+                <label>Local de Instalação</label>
+                <select id="installation-location" class="form-control">
+                    <option value="Sala">Sala</option>
+                    <option value="Quarto">Quarto</option>
+                    <option value="Cozinha">Cozinha</option>
+                    <option value="Escritório">Escritório</option>
+                    <option value="Outro">Outro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Modelo do Equipamento</label>
+                <input type="text" id="equipment-model" placeholder="Ex: Split 12000 BTUs">
+            </div>
+            <button class="btn" onclick="saveEquipment()">Salvar Equipamento</button>
         </div>
     </div>
     <div class="fab" onclick="showScreen('scanner')" title="Ler QR Code">
@@ -282,10 +456,28 @@
     </div>
     <div class="toast" id="toast"></div>
     <script>
-        // Banco de Dados
+        // MENU MOBILE
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuOverlay = document.getElementById('menuOverlay');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        hamburger.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', toggleMenu);
+        });
+        function toggleMenu() {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        }
+
+        // BANCO DE DADOS
         const db = new Dexie('PMOC_DB');
-        db.version(2).stores({
-            clients: '++id,nome,modelo,dataInstalacao,qrCodeId,manutencoes',
+        db.version(3).stores({
+            clients: '++id,nome',
+            equipments: '++id,clientId,modelo,localInstalacao,qrCodeId,dataInstalacao',
             unlinkedQRCodes: 'id,createdAt'
         });
 
@@ -293,13 +485,14 @@
         let linkingScanner = null;
         let currentClientId = null;
         let scannerMode = "main";
-        let qrCodeFromScan = null; // Controle se veio do scanner
+        let qrCodeFromScan = null;
 
         document.addEventListener('DOMContentLoaded', async () => {
             await renderUnlinkedQRCodes();
         });
 
         function showScreen(screenId) {
+            if(mobileMenu.classList.contains('active')) toggleMenu();
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(`${screenId}-screen`).classList.add('active');
             if(screenId === 'scanner') {
@@ -309,18 +502,7 @@
                 qrScanner.stop();
             }
             if(screenId === 'gerador') {
-                clearCadastroForm();
-                // Se veio de scan, preenche e bloqueia o campo
-                if(qrCodeFromScan) {
-                    document.getElementById('linked-qr').value = qrCodeFromScan;
-                    document.getElementById('linked-qr').readOnly = true;
-                    document.getElementById('scan-link-btn').disabled = true;
-                } else {
-                    document.getElementById('linked-qr').value = '';
-                    document.getElementById('linked-qr').readOnly = true;
-                    document.getElementById('scan-link-btn').disabled = false;
-                }
-                if(linkingScanner) linkingScanner.stop();
+                document.getElementById('client-name').value = '';
             }
         }
         function stopScannerAndBack() {
@@ -371,7 +553,6 @@
             });
         }
 
-        // SCANNER PRINCIPAL
         async function initScanner() {
             try {
                 if (qrScanner) {
@@ -382,10 +563,7 @@
                 videoElem.srcObject = null;
                 qrScanner = new QrScanner(
                     videoElem,
-                    result => {
-                        if (scannerMode === "main") handleScan(result.data);
-                        else if (scannerMode === "link") handleLinkingScan(result.data);
-                    },
+                    result => handleScan(result.data),
                     {
                         highlightScanRegion: true,
                         returnDetailedScanResult: true
@@ -398,103 +576,99 @@
             }
         }
 
-        // handleScan ajustado para registrar QR lido e bloquear campo no cadastro
+        // SCAN: procura equipamento pelo QR
         async function handleScan(content) {
-            const client = await db.clients.where('qrCodeId').equals(content).first();
-            if(client) {
-                currentClientId = client.id;
+            const equipment = await db.equipments.where('qrCodeId').equals(content).first();
+            if(equipment) {
+                const client = await db.clients.get(equipment.clientId);
+                showClientData(client.id);
+                showToast("Equipamento encontrado!");
                 if(qrScanner) qrScanner.stop();
-                showClientData(client);
-                showToast("Cliente encontrado!");
-                qrCodeFromScan = null;
                 return;
             }
-            const unlinked = await db.unlinkedQRCodes.get(content);
-            if(unlinked) {
-                qrCodeFromScan = content;
-                if(qrScanner) qrScanner.stop();
+            // QR não cadastrado, vai para cadastro de cliente
+            showToast("QR Code não cadastrado, cadastre o cliente e o equipamento.");
+            setTimeout(() => {
                 showScreen('gerador');
-                showToast("QR Code disponível para cadastro!");
-                return;
-            }
-            // QR Code totalmente novo: registra como não vinculado e já preenche o campo
-            await db.unlinkedQRCodes.add({id: content, createdAt: new Date()});
-            qrCodeFromScan = content;
+            }, 1200);
             if(qrScanner) qrScanner.stop();
-            showToast("Novo QR Code detectado! Preencha os dados.");
-            showScreen('gerador');
         }
 
-        // SCANNER PARA VINCULAR QR NO CADASTRO
-        async function openLinkingScanner() {
-            scannerMode = "link";
-            showScreen('scanner');
-            setTimeout(initScanner, 250);
-            document.getElementById('scan-result').textContent = 'Escaneie um QR Code não vinculado para associar ao cliente.';
-        }
-
-        async function handleLinkingScan(content) {
-            const exists = await db.unlinkedQRCodes.get(content);
-            if(exists) {
-                document.getElementById('linked-qr').value = content;
-                document.getElementById('linked-qr').readOnly = true;
-                document.getElementById('scan-link-btn').disabled = true;
-                if(qrScanner) qrScanner.stop();
-                showScreen('gerador');
-                showToast('QR Code vinculado com sucesso!');
-            } else {
-                showToast('QR Code inválido ou já vinculado');
-                document.getElementById('scan-result').textContent = "QR Code inválido ou já vinculado!";
-            }
-        }
-
-        // CADASTRO DE CLIENTE
-        function clearCadastroForm() {
-            document.getElementById('client-name').value = '';
-            document.getElementById('equipment-model').value = '';
-            document.getElementById('installation-date').value = '';
-            // Não limpa o linked-qr, pois pode ser preenchido por scan
-        }
-
+        // CLIENTES
         async function saveClient() {
             const nome = document.getElementById('client-name').value.trim();
-            const modelo = document.getElementById('equipment-model').value.trim();
-            const dataInstalacao = document.getElementById('installation-date').value;
-            const qrId = document.getElementById('linked-qr').value.trim();
-
-            if(!nome || !modelo || !dataInstalacao || !qrId) {
-                showToast("Preencha todos os campos e vincule um QR Code!");
+            if(!nome) {
+                showToast("Preencha o nome do cliente!");
                 return;
             }
-            // Verifica se QR ainda está disponível
-            const exists = await db.unlinkedQRCodes.get(qrId);
-            if(!exists) {
-                showToast("QR Code já vinculado ou inválido!");
-                return;
-            }
-            await db.clients.add({
-                nome, modelo, dataInstalacao, qrCodeId: qrId, manutencoes: []
-            });
-            await db.unlinkedQRCodes.delete(qrId);
-            await renderUnlinkedQRCodes();
-            qrCodeFromScan = null;
-            clearCadastroForm();
-            showToast("Cliente cadastrado com sucesso!");
-            setTimeout(() => showScreen('main'), 1400);
+            const id = await db.clients.add({nome});
+            showToast("Cliente cadastrado!");
+            showClientData(id);
         }
 
-        async function showClientData(client) {
+        async function showClientList() {
+            const clientList = document.getElementById('client-list');
+            clientList.innerHTML = '';
+            const clients = await db.clients.toArray();
+            if(clients.length === 0) {
+                clientList.innerHTML = "<div style='color:#888;text-align:center'>Nenhum cliente cadastrado ainda.</div>";
+                return;
+            }
+            clients.forEach(client => {
+                const div = document.createElement('div');
+                div.className = 'client-item';
+                div.innerHTML = `
+                    <div class="client-name">${client.nome}</div>
+                `;
+                div.addEventListener('click', () => showClientData(client.id));
+                clientList.appendChild(div);
+            });
+            showScreen('client-list');
+        }
+
+        async function showClientData(clientId) {
+            const client = await db.clients.get(clientId);
+            const equipments = await db.equipments.where('clientId').equals(clientId).toArray();
             document.getElementById('client-name-view').textContent = client.nome;
-            document.getElementById('equipment-model-view').textContent = client.modelo;
-            document.getElementById('installation-date-view').textContent = 
-                new Date(client.dataInstalacao).toLocaleDateString('pt-BR');
-            const historyList = document.getElementById('maintenance-history');
-            historyList.innerHTML = (client.manutencoes && client.manutencoes.length > 0)
-                ? client.manutencoes.map(m => 
-                    `<li>${new Date(m.data).toLocaleDateString('pt-BR')} - ${m.descricao}</li>`
-                ).join('')
-                : '<li>Nenhuma manutenção registrada</li>';
+            document.getElementById('equipment-count').textContent = equipments.length;
+            const equipmentList = document.getElementById('equipment-list');
+            equipmentList.innerHTML = equipments.length === 0 ?
+                '<div style="color:#888;">Nenhum equipamento cadastrado.</div>' :
+                equipments.map(equip => `
+                    <div class="equipment-item">
+                        <div class="equip-model">Modelo: ${equip.modelo}</div>
+                        <div class="equip-location">📍 ${equip.localInstalacao}</div>
+                        <div class="equip-date">📅 ${new Date(equip.dataInstalacao).toLocaleDateString('pt-BR')}</div>
+                        <div class="equip-qrcode">QR Code: <span style="font-size:0.92em;color:#1976d2">${equip.qrCodeId}</span></div>
+                    </div>
+                `).join('');
+            currentClientId = clientId;
             showScreen('client');
+        }
+
+        function showAddEquipmentForm() {
+            document.getElementById('equipment-model').value = '';
+            document.getElementById('installation-location').value = 'Sala';
+            showScreen('add-equipment');
+        }
+
+        async function saveEquipment() {
+            const modelo = document.getElementById('equipment-model').value.trim();
+            const localInstalacao = document.getElementById('installation-location').value;
+            if(!modelo) {
+                showToast("Preencha o modelo do equipamento!");
+                return;
+            }
+            const qrCodeId = `EQUIP-${crypto.randomUUID()}`;
+            await db.equipments.add({
+                clientId: currentClientId,
+                modelo,
+                localInstalacao,
+                qrCodeId,
+                dataInstalacao: new Date()
+            });
+            showToast("Equipamento cadastrado!");
+            showClientData(currentClientId);
         }
     </script>
 </body>
