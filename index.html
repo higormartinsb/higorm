@@ -10,7 +10,6 @@
     <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
     <style>
-        /* (Mantenha seus estilos, sem alterações) */
         :root {
             --primary: #1976d2;
             --primary-dark: #115293;
@@ -258,7 +257,7 @@
             </div>
             <div class="form-group">
                 <label>Vincular QR Code Existente</label>
-                <button type="button" class="btn secondary" onclick="openLinkingScanner()">
+                <button type="button" class="btn secondary" id="scan-link-btn" onclick="openLinkingScanner()">
                     🔍 Escanear QR Code
                 </button>
                 <input type="text" id="linked-qr" placeholder="Escaneie o QR Code" readonly>
@@ -293,7 +292,8 @@
         let qrScanner = null;
         let linkingScanner = null;
         let currentClientId = null;
-        let scannerMode = "main"; // "main" ou "link"
+        let scannerMode = "main";
+        let qrCodeFromScan = null; // Controle se veio do scanner
 
         document.addEventListener('DOMContentLoaded', async () => {
             await renderUnlinkedQRCodes();
@@ -310,6 +310,16 @@
             }
             if(screenId === 'gerador') {
                 clearCadastroForm();
+                // Se veio de scan, preenche e bloqueia o campo
+                if(qrCodeFromScan) {
+                    document.getElementById('linked-qr').value = qrCodeFromScan;
+                    document.getElementById('linked-qr').readOnly = true;
+                    document.getElementById('scan-link-btn').disabled = true;
+                } else {
+                    document.getElementById('linked-qr').value = '';
+                    document.getElementById('linked-qr').readOnly = true;
+                    document.getElementById('scan-link-btn').disabled = false;
+                }
                 if(linkingScanner) linkingScanner.stop();
             }
         }
@@ -388,7 +398,7 @@
             }
         }
 
-        // CORREÇÃO: handleScan agora vai direto para o cadastro ao ler QR inválido
+        // handleScan ajustado para registrar QR lido e bloquear campo no cadastro
         async function handleScan(content) {
             const client = await db.clients.where('qrCodeId').equals(content).first();
             if(client) {
@@ -396,25 +406,23 @@
                 if(qrScanner) qrScanner.stop();
                 showClientData(client);
                 showToast("Cliente encontrado!");
+                qrCodeFromScan = null;
                 return;
             }
             const unlinked = await db.unlinkedQRCodes.get(content);
             if(unlinked) {
-                showToast("QR Code disponível para cadastro! Faça o cadastro.");
-                setTimeout(() => {
-                    document.getElementById('linked-qr').value = content;
-                    showScreen('gerador');
-                }, 800);
+                qrCodeFromScan = content;
                 if(qrScanner) qrScanner.stop();
+                showScreen('gerador');
+                showToast("QR Code disponível para cadastro!");
                 return;
             }
-            // QR inválido: já vai para cadastro e preenche o campo
-            showToast("QR Code inválido! Cadastre este QR Code.");
-            setTimeout(() => {
-                document.getElementById('linked-qr').value = content;
-                showScreen('gerador');
-            }, 800);
+            // QR Code totalmente novo: registra como não vinculado e já preenche o campo
+            await db.unlinkedQRCodes.add({id: content, createdAt: new Date()});
+            qrCodeFromScan = content;
             if(qrScanner) qrScanner.stop();
+            showToast("Novo QR Code detectado! Preencha os dados.");
+            showScreen('gerador');
         }
 
         // SCANNER PARA VINCULAR QR NO CADASTRO
@@ -429,6 +437,8 @@
             const exists = await db.unlinkedQRCodes.get(content);
             if(exists) {
                 document.getElementById('linked-qr').value = content;
+                document.getElementById('linked-qr').readOnly = true;
+                document.getElementById('scan-link-btn').disabled = true;
                 if(qrScanner) qrScanner.stop();
                 showScreen('gerador');
                 showToast('QR Code vinculado com sucesso!');
@@ -438,11 +448,12 @@
             }
         }
 
+        // CADASTRO DE CLIENTE
         function clearCadastroForm() {
             document.getElementById('client-name').value = '';
             document.getElementById('equipment-model').value = '';
             document.getElementById('installation-date').value = '';
-            document.getElementById('linked-qr').value = '';
+            // Não limpa o linked-qr, pois pode ser preenchido por scan
         }
 
         async function saveClient() {
@@ -450,10 +461,12 @@
             const modelo = document.getElementById('equipment-model').value.trim();
             const dataInstalacao = document.getElementById('installation-date').value;
             const qrId = document.getElementById('linked-qr').value.trim();
+
             if(!nome || !modelo || !dataInstalacao || !qrId) {
                 showToast("Preencha todos os campos e vincule um QR Code!");
                 return;
             }
+            // Verifica se QR ainda está disponível
             const exists = await db.unlinkedQRCodes.get(qrId);
             if(!exists) {
                 showToast("QR Code já vinculado ou inválido!");
@@ -464,6 +477,7 @@
             });
             await db.unlinkedQRCodes.delete(qrId);
             await renderUnlinkedQRCodes();
+            qrCodeFromScan = null;
             clearCadastroForm();
             showToast("Cliente cadastrado com sucesso!");
             setTimeout(() => showScreen('main'), 1400);
