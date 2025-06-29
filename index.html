@@ -1,236 +1,200 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>H2Service | PMOC</title>
-    <!-- Linking Unicons For Icons -->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body class="sidebar-hidden">
-    <div class="container">
-      <!-- Header / Navbar -->
-      <header>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PegaServiço - Conectando Profissionais e Clientes</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
         <nav class="navbar">
-          <div class="nav-section nav-left">
-            <button class="nav-button menu-button">
-              <i class="uil uil-bars"></i>
-            </button>
-            <a href="#" class="nav-logo">
-              <img src="images/logo.png" alt="Logo" class="logo-image" />
-              <h2 class="logo-text">H2Service</h2>
-            </a>
-          </div>
+            <div class="nav-brand">
+                <i class="fas fa-tools"></i>
+                <h2>PegaServiço</h2>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <ul class="nav-menu">
+                <li><a href="#profissional">Seja um profissional</a></li>
+                <li><a href="#como-funciona">Como funciona?</a></li>
+                <li><a href="#seguranca">Segurança</a></li>
+                <li><a href="#" class="btn-entrar">Entrar</a></li>
+            </ul>
 
-          <div class="nav-section">
-            <button class="nav-button search-back-button" id="search-back-button">
-              <i class="uil uil-arrow-left"></i>
-            </button>
-          </div>
-
-          <div class="nav-section nav-center">
-            <form action="#" class="search-form">
-              <input type="search" placeholder="Search" class="search-input" required />
-              <button class="nav-button search-button">
-                <i class="uil uil-search"></i>
-              </button>
-            </form>
-            <button class="nav-button mic-button">
-              <i class="uil uil-microphone"></i>
-            </button>
-          </div>
-
-          <div class="nav-section nav-right">
-            <button class="nav-button search-button" id="search-button">
-              <i class="uil uil-search"></i>
-            </button>
-            <button class="nav-button theme-button">
-              <i class="uil uil-moon"></i>
-            </button>
-            <img src="images/user.jpg" alt="User Image" class="user-image" />
-          </div>
+            <!-- Mobile Menu Button -->
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
-      </header>
 
-      <!-- Main Layout -->
-      <main class="main-layout">
-        <div class="screen-overlay"></div>
-
-        <!-- Sidebar -->
-        <aside class="sidebar">
-          <div class="nav-section nav-left">
-            <button class="nav-button menu-button">
-              <i class="uil uil-bars"></i>
-            </button>
-            <a href="#" class="nav-logo">
-              <img src="images/logo.png" alt="Logo" class="logo-image" />
-              <h2 class="logo-text">CnTube</h2>
-            </a>
-          </div>
-
-          <div class="links-container">
-            <div class="link-section">
-              <a href="#" class="link-item"> <i class="uil uil-estate"></i> Home </a>
-              <a href="#" class="link-item"> <i class="uil uil-video"></i> Shorts </a>
-              <a href="#" class="link-item"> <i class="uil uil-tv-retro"></i> Subscriptions </a>
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobile-menu">
+            <div class="mobile-menu-header">
+                <h3>Menu</h3>
+                <button class="close-btn" id="close-menu">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <div class="section-separator"></div>
-
-            <div class="link-section">
-              <h4 class="section-title">You</h4>
-              <a href="#" class="link-item"> <i class="uil uil-user-square"></i> Your channel </a>
-              <a href="#" class="link-item"> <i class="uil uil-history"></i> History </a>
-              <a href="#" class="link-item"> <i class="uil uil-clock"></i> Watch later </a>
-            </div>
-            <div class="section-separator"></div>
-
-            <div class="link-section">
-              <h4 class="section-title">Explore</h4>
-              <a href="#" class="link-item"> <i class="uil uil-fire"></i> Trending </a>
-              <a href="#" class="link-item"> <i class="uil uil-music"></i> Music </a>
-              <a href="#" class="link-item"> <i class="uil uil-basketball"></i> Gaming </a>
-              <a href="#" class="link-item"> <i class="uil uil-trophy"></i> Sports </a>
-            </div>
-            <div class="section-separator"></div>
-
-            <div class="link-section">
-              <h4 class="section-title">More from YouTube</h4>
-              <a href="#" class="link-item"> <i class="uil uil-shield-plus"></i> YouTube Plus </a>
-              <a href="#" class="link-item"> <i class="uil uil-headphones-alt"></i> YouTube Music </a>
-              <a href="#" class="link-item"> <i class="uil uil-airplay"></i> YouTube Kids </a>
-            </div>
-            <div class="section-separator"></div>
-
-            <div class="link-section">
-              <a href="#" class="link-item"> <i class="uil uil-setting"></i> Settings </a>
-              <a href="#" class="link-item"> <i class="uil uil-file-medical-alt"></i> Report </a>
-              <a href="#" class="link-item"> <i class="uil uil-question-circle"></i> Help </a>
-              <a href="#" class="link-item"> <i class="uil uil-exclamation-triangle"></i> Feedback </a>
-            </div>
-          </div>
-        </aside>
-
-           <div class="content-wrapper">
-  <!-- Container dos cards de serviço -->
-  <div class="service-list">
-  <div class="service-card">
-  <div class="profile-section">
-    <img src="images/perfil/1.png" alt="Foto do Prestador" class="profile-photo" />
-    <div class="profile-info">
-      <h2 class="service-name">Pinaffo Eletrica e Automação</h2>
-      <p class="main-service">Serviço principal: <strong>Eletricista</strong></p>
-      <div class="rating">
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star-half-alt"></i>
-        <span class="rating-value">4.5</span>
-      </div>
-    </div>
-  </div>
-  <div class="button-group">
-    <button class="contact-btn">Entrar em contato</button>
-    <button class="more-btn">Ver detalhes</button>
-  </div>
-</div>
-<!--Card 2-->
-    <div class="service-card">
-  <div class="profile-section">
-    <img src="images/prestador.jpg" alt="Foto do Prestador" class="profile-photo" />
-    <div class="profile-info">
-      <h2 class="service-name">Nome da Empresa ou Pessoa</h2>
-      <p class="main-service">Serviço principal: <strong>Eletricista</strong></p>
-      <div class="rating">
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star-half-alt"></i>
-        <span class="rating-value">4.5</span>
-      </div>
-    </div>
-  </div>
-  <div class="button-group">
-    <button class="contact-btn">Entrar em contato</button>
-    <button class="more-btn">Ver detalhes</button>
-  </div>
-</div>
-<!--Card 3-->
-    <div class="service-card">
-  <div class="profile-section">
-    <img src="images/prestador.jpg" alt="Foto do Prestador" class="profile-photo" />
-    <div class="profile-info">
-      <h2 class="service-name">Nome da Empresa ou Pessoa</h2>
-      <p class="main-service">Serviço principal: <strong>Eletricista</strong></p>
-      <div class="rating">
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star-half-alt"></i>
-        <span class="rating-value">4.5</span>
-      </div>
-    </div>
-  </div>
-  <div class="button-group">
-    <button class="contact-btn">Entrar em contato</button>
-    <button class="more-btn">Ver detalhes</button>
-  </div>
-</div>
-<!--Card 4-->
-    <div class="service-card">
-  <div class="profile-section">
-    <img src="images/prestador.jpg" alt="Foto do Prestador" class="profile-photo" />
-    <div class="profile-info">
-      <h2 class="service-name">Nome da Empresa ou Pessoa</h2>
-      <p class="main-service">Serviço principal: <strong>Eletricista</strong></p>
-      <div class="rating">
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star-half-alt"></i>
-        <span class="rating-value">4.5</span>
-      </div>
-    </div>
-  </div>
-  <div class="button-group">
-    <button class="contact-btn">Entrar em contato</button>
-    <button class="more-btn">Ver detalhes</button>
-  </div>
-</div>
-<!--Card 5-->
-    <div class="service-card">
-  <div class="profile-section">
-    <img src="images/prestador.jpg" alt="Foto do Prestador" class="profile-photo" />
-    <div class="profile-info">
-      <h2 class="service-name">Nome da Empresa ou Pessoa</h2>
-      <p class="main-service">Serviço principal: <strong>Eletricista</strong></p>
-      <div class="rating">
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star"></i>
-        <i class="uil uil-star-half-alt"></i>
-        <span class="rating-value">4.5</span>
-      </div>
-    </div>
-  </div>
-  <div class="button-group">
-    <button class="contact-btn">Entrar em contato</button>
-    <button class="more-btn">Ver detalhes</button>
-  </div>
-</div>
-    <!-- ...outros cards Acima -->
-  </div>
-         
+            <ul class="mobile-nav-links">
+                <li><a href="#profissional"><i class="fas fa-user-tie"></i> Seja um profissional</a></li>
+                <li><a href="#como-funciona"><i class="fas fa-info-circle"></i> Como funciona?</a></li>
+                <li><a href="#seguranca"><i class="fas fa-shield-alt"></i> Segurança</a></li>
+                <li><a href="#" class="mobile-login"><i class="fas fa-sign-in-alt"></i> Entrar</a></li>
+            </ul>
         </div>
-      </main>
-    </div>
+    </header>
 
-    <!-- Linking custom script -->
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="categories-grid">
+                <div class="category-card" data-category="assistencia">
+                    <div class="category-icon">
+                        <i class="fas fa-wrench"></i>
+                    </div>
+                    <span>Assistência técnica</span>
+                </div>
+
+                <div class="category-card" data-category="aulas">
+                    <div class="category-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <span>Aulas</span>
+                </div>
+
+                <div class="category-card" data-category="autos">
+                    <div class="category-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <span>Autos</span>
+                </div>
+
+                <div class="category-card" data-category="consultoria">
+                    <div class="category-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <span>Consultoria</span>
+                </div>
+
+                <div class="category-card" data-category="design">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <span>Design e Tecnologia</span>
+                </div>
+
+                <div class="category-card" data-category="eventos">
+                    <div class="category-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <span>Eventos</span>
+                </div>
+
+                <div class="category-card" data-category="moda">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <span>Moda e beleza</span>
+                </div>
+
+                <div class="category-card" data-category="reformas">
+                    <div class="category-icon">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                    <span>Reformas e reparos</span>
+                </div>
+
+                <div class="category-card" data-category="saude">
+                    <div class="category-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <span>Saúde</span>
+                </div>
+
+                <div class="category-card" data-category="domesticos">
+                    <div class="category-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <span>Serviços Domésticos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Mais de <span class="highlight">500 tipos</span> de serviços em um só lugar</h1>
+                <p>Encontre profissionais e contrate serviços para tudo o que precisar</p>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="O que você precisa?">
+                    <button type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="professional-showcase">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face" alt="Profissional" class="professional-img">
+                    
+                    <div class="floating-card">
+                        <div class="professional-card">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&crop=face" alt="Profissional">
+                            <div class="card-info">
+                                <h4>Carlos Silva</h4>
+                                <p>Profissional certificado</p>
+                                <p class="year">desde 2018</p>
+                                <div class="rating">
+                                    <span class="stars">★★★★★</span>
+                                    <span class="score">4.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>PegaServiço</h3>
+                    <p>Conectando profissionais e clientes de forma simples e segura.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Para Clientes</h4>
+                    <ul>
+                        <li><a href="#">Como Contratar</a></li>
+                        <li><a href="#">Segurança</a></li>
+                        <li><a href="#">Suporte</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Para Profissionais</h4>
+                    <ul>
+                        <li><a href="#">Como Funciona</a></li>
+                        <li><a href="#">Cadastre-se</a></li>
+                        <li><a href="#">Central de Ajuda</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
