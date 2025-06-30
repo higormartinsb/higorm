@@ -198,8 +198,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1.5rem;
-    max-width: 1000px;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .category-card {
@@ -252,7 +254,7 @@ body {
 
 /* Hero Section */
 .hero {
-    padding: 60px 0;
+    padding: 100px 0 10px 0;
     background: var(--background-light);
 }
 
@@ -443,6 +445,56 @@ body {
 .footer-section ul li a:hover {
     color: var(--primary-color);
 }
+
+/* Limita visualmente a quantidade de categorias */
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Esconde as categorias extras */
+.category-card.hidden {
+    display: none;
+}
+
+.see-more-btn {
+    display: block;
+    margin: 18px auto 0 auto;
+    background: #4A90E2;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    padding: 0.7rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.see-more-btn:hover {
+    background: #357ABD;
+}
+
+.categories-title {
+    margin-top: 28px;
+    margin-bottom: 16px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4A90E2; /* ou a cor principal do seu projeto */
+    letter-spacing: 0.5px;
+}
+
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

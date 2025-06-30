@@ -143,3 +143,34 @@ window.addEventListener('load', () => {
         document.body.style.opacity = '1';
     }, 100);
 });
+
+//Limitar Categorias
+document.addEventListener('DOMContentLoaded', function() {
+    const grid = document.getElementById('categoriesGrid');
+    const btn = document.getElementById('seeMoreBtn');
+    const cards = grid.querySelectorAll('.category-card');
+    const limit = 6; // Quantidade de categorias visíveis inicialmente
+
+    // Esconde as categorias extras
+    cards.forEach((card, idx) => {
+        if (idx >= limit) card.classList.add('hidden');
+    });
+
+    btn.addEventListener('click', function() {
+        const isExpanded = btn.getAttribute('data-expanded') === 'true';
+        if (!isExpanded) {
+            // Mostrar todas
+            cards.forEach(card => card.classList.remove('hidden'));
+            btn.textContent = 'Ver menos';
+            btn.setAttribute('data-expanded', 'true');
+        } else {
+            // Esconder extras
+            cards.forEach((card, idx) => {
+                if (idx >= limit) card.classList.add('hidden');
+            });
+            btn.textContent = 'Ver mais';
+            btn.setAttribute('data-expanded', 'false');
+        }
+    });
+});
+
