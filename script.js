@@ -44,19 +44,18 @@ window.addEventListener('scroll', () => {
 const categoryCards = document.querySelectorAll('.category-card');
 categoryCards.forEach(card => {
     card.addEventListener('click', () => {
-        const category = card.getAttribute('data-category');
         const searchInput = document.querySelector('.search-box input');
-        const categoryName = card.querySelector('span').textContent;
-        
-        searchInput.value = categoryName;
+        const categoryName = card.querySelector('span').textContent.trim().toLowerCase();
+        // Frase personalizada
+        searchInput.value = `Olá, preciso de um serviço de ${categoryName}.`;
         searchInput.focus();
-        
-        // Scroll to search box
+        // Scroll até o campo de busca
         document.querySelector('.search-box').scrollIntoView({
             behavior: 'smooth',
             block: 'center'
         });
     });
+
     
     // Hover effects
     card.addEventListener('mouseenter', () => {
