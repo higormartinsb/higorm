@@ -25,7 +25,8 @@
     gap: 0.6rem;
     position: relative;
     overflow: hidden;
-    height: 200px; /* Altura fixa */
+    min-height: 160px; /* ou 160px, ajuste conforme seu design */
+    height: auto;
     transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
 }
 
@@ -66,18 +67,28 @@
     justify-content: flex-start;
 }
 
+.pro-title-wrapper {
+  height: 2.4em; /* altura para 2 linhas */
+  display: flex;
+  align-items: center; /* centraliza verticalmente */
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
 .pro-name {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: #222;
-    margin-top: -10px;
-    letter-spacing: 0.05px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2; /* Máximo 2 linhas */
-    overflow: hidden;
-    line-height: 1.2;
-    min-height: 2.4rem; /* Garante espaço para 2 linhas */
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  letter-spacing: 0.05px;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  width: 100%;
 }
 
 .pro-role {
@@ -96,7 +107,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin-top: -10px;
+    margin-top: -6px;
 }
 
 .pro-rating .stars {
@@ -155,6 +166,13 @@
     transition: background 0.2s, box-shadow 0.2s, transform 0.2s, color 0.2s;
 }
 
+.pro-btn i{
+    color: #FFA726;
+    font-size: 20px;
+    padding-right: 10px;
+    left: 0;
+}
+
 .pro-btn.primary {
     background: linear-gradient(90deg, #4A90E2 60%, #FFA726 100%);
     color: #fff;
@@ -178,29 +196,38 @@
     transform: scale(1.04);
 }
 
+/* Responsivo */
 @media (max-width: 700px) {
     .professionals-list {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 1.2rem;
     }
     .pro-card {
-        height: auto;
-        min-height: 180px;
+        padding: 1.1rem 0.7rem 1rem 0.7rem;
     }
     .pro-card-top {
-        gap: 0.7rem;
+        gap: 0.8rem;
     }
     .pro-avatar {
-        width: 44px;
-        height: 44px;
-        margin-top: -8px;
+        width: 54px;
+        height: 54px;
+        margin-top: -12px;
     }
     .pro-btn {
-        font-size: 0.94rem;
-        min-height: 34px;
+        font-size: 0.99rem;
+        padding: 0.65rem 0;
+    }
+    .pro-name {
+        font-size: 1.01rem;
+    }
+    .pro-role {
+        font-size: 0.93rem;
+    }
+    .pro-desc {
+        font-size: 0.97rem;
     }
     .pro-card-actions {
         flex-direction: column;
-        gap: 0.6rem;
-    }
+        gap: 0.7rem;
+    }
 }
