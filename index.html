@@ -12,10 +12,22 @@
       --radius:14px; --shadow: 0 6px 18px rgba(2,6,23,0.08);
       --mobile-width:420px;
     }
-    *{box-sizing:border-box}
-    html,body,#app{height:100%}
-    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 60%); color:#0f172a}
-    .app{max-width:var(--mobile-width); margin:18px auto; min-height:calc(100vh - 36px); background:transparent}
+    *{
+      box-sizing:border-box;
+    }
+    html,body,#app{
+      height:100%;
+    }
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+     margin:0; 
+     background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 60%); 
+     color:#0f172a;
+    }
+    .app{max-width:var(--mobile-width); 
+      margin:18px auto;
+       min-height:calc(100vh - 36px); 
+       background:transparent;
+      }
 
     /* --- Shell --- */
     header{
@@ -25,11 +37,13 @@
       padding:14px;
       border-radius:16px;
       margin-bottom:14px;
+      background: var(--accent);
     }
     .brand{
       display:flex;
       align-items:center;
       gap:10px;
+      background: var(--accent);
     }
     .logo{
       width:46px;
@@ -57,6 +71,9 @@
       border-radius:var(--radius); 
       padding:14px;
       box-shadow:var(--shadow);
+      }
+      .card-2{
+      background:var(--accent); 
       }
     nav.bottom-nav{
       position:fixed;
@@ -118,7 +135,7 @@
 </head>
 <body>
   <div id="app" class="app">
-    <header class="card" style="display:flex;align-items:center;justify-content:space-between">
+    <header class="card-2" style="display:flex;align-items:center;justify-content:space-between">
       <div class="brand">
         <div class="logo">H2</div>
         <div>
@@ -187,7 +204,8 @@
 
           <div class="field">
             <label>Cód Cor (pode ter foto)</label>
-            <div class="row"><input id="add-codcor" placeholder="Ex: C-72 Azul" type="text" /><input id="add-codcor-foto" type="file" accept="image/*" /><button class="btn" id="btn-save-codcor">Salvar</button></div>
+            <div class="row"><input id="add-codcor" placeholder="Ex: C-72 Azul" type="text" />
+              <input id="add-codcor-foto" type="file" accept="image/*" /><button class="btn" id="btn-save-codcor">Salvar</button></div>
           </div>
 
           <div style="margin-top:10px"><small class="subtitle">Fotos e imagens são salvas como dataURL no banco local.</small></div>
