@@ -507,6 +507,53 @@
 
   </script>
 
+  <script>
+  // ---------------- Mensagem de sucesso personalizada ----------------
+  function showSuccess(msg){
+    const popup = document.createElement('div');
+    popup.style.position = 'fixed';
+    popup.style.bottom = '20px';
+    popup.style.left = '50%';
+    popup.style.transform = 'translateX(-50%)';
+    popup.style.background = '#0ea5e9';
+    popup.style.color = '#fff';
+    popup.style.padding = '12px 24px';
+    popup.style.borderRadius = '12px';
+    popup.style.boxShadow = '0 6px 18px rgba(0,0,0,0.15)';
+    popup.style.zIndex = 9999;
+    popup.style.fontWeight = '600';
+    popup.textContent = msg;
+    document.body.appendChild(popup);
+    setTimeout(()=>popup.remove(), 2500);
+  }
+
+  // ---------------- Hook nos botões de cadastro ----------------
+  async function bindCustomSuccessButtons(){
+    const addBtns = [
+      {id:'btn-save-mont', msg:'Montadora adicionada com sucesso!'},
+      {id:'btn-save-veic', msg:'Veículo adicionado com sucesso!'},
+      {id:'btn-save-corv', msg:'Cor do veículo adicionada!'},
+      {id:'btn-save-coduni', msg:'Código universal adicionado!'},
+      {id:'btn-save-codcor', msg:'Código de cor adicionado!'},
+      {id:'btn-cadastrar-item', msg:'Item cadastrado com sucesso!'}
+    ];
+
+    addBtns.forEach(b=>{
+      const btn = document.getElementById(b.id);
+      if(!btn) return;
+      btn.addEventListener('click', async (e)=>{
+        // delay para esperar o IndexedDB salvar
+        setTimeout(()=>showSuccess(b.msg), 300);
+      });
+    });
+  }
+
+  // ---------------- Inicialização ----------------
+  (async function initCustomMessages(){
+    await bindCustomSuccessButtons();
+  })();
+</script>
+
   <!-- optional inline service worker source (fallback) -->
   <script id="sw" type="javascript/worker">
     const CACHE = 'h2tech-cache-v1';
