@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>H2tech - Cores & Veículos (PWA)</title>
+  <meta name="theme-color" content="#0ea5e9" />
+  <style>
+    /* --- Reset & base --- */
+    :root{
+      --bg:#f8fafc; --card:#ffffff; --muted:#6b7280; --accent:#0ea5e9; --glass: rgba(255,255,255,0.6);
+      --radius:14px; --shadow: 0 6px 18px rgba(2,6,23,0.08);
+      --mobile-width:420px;
+    }
+    *{box-sizing:border-box}
+    html,body,#app{height:100%}
+    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 60%); color:#0f172a}
+    .app{max-width:var(--mobile-width); margin:18px auto; min-height:calc(100vh - 36px); background:transparent}
+
+    /* --- Shell --- */
+    header{display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;margin-bottom:14px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:46px;height:46px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#7dd3fc);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:var(--shadow)}
+    h1{font-size:16px;margin:0}
+    p.subtitle{margin:0;font-size:12px;color:var(--muted)}
+
+    /* --- Card / main --- */
+    .card{background:var(--card); border-radius:var(--radius); padding:14px; box-shadow:var(--shadow)}
+    nav.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;display:flex;gap:8px;background:transparent}
+    .nav-btn{width:62px;height:62px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.9),var(--glass));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(2,6,23,0.06);transition:transform .18s ease}
+    .nav-btn:active{transform:scale(.98)}
+    .nav-btn.active{background:linear-gradient(180deg,#e6f7ff,#e0f2fe);border:1px solid rgba(14,165,233,0.12)}
+    .nav-btn svg{width:22px;height:22px}
+    .nav-label{font-size:11px;color:var(--muted);margin-top:6px}
+
+    /* --- Views --- */
+    .view{display:none;padding-bottom:90px}
+    .view.active{display:block}
+    .flex{display:flex;gap:8px}
+    .field{display:flex;flex-direction:column;margin-bottom:10px}
+    label{font-size:12px;color:var(--muted);margin-bottom:6px}
+    input[type=text], select, input[type=number]{padding:10px;border-radius:10px;border:1px solid #e6eef6;background:linear-gradient(180deg,#fff,#fbfdff)}
+    button.btn{padding:10px 12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),#06b6d4);color:white;font-weight:600;cursor:pointer}
+    .btn.ghost{background:transparent;border:1px dashed #e2e8f0;color:var(--muted)}
+
+    /* list */
+    .list{display:grid;gap:8px}
+    .list-item{padding:10px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbffff);display:flex;align-items:center;gap:12px;border:1px solid #f1f5f9}
+    .thumb{width:56px;height:40px;border-radius:8px;flex-shrink:0;background:#f8fafc;border:1px solid #e6eef6;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover}
+    .meta{flex:1}
+    .meta b{display:block}
+    .row{display:flex;gap:8px;align-items:center}
+
+    /* modals */
+    .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.4);display:flex;align-items:flex-end;justify-content:center;padding:18px;z-index:120}
+    .modal{width:100%;max-width:420px;border-radius:18px;padding:14px;background:var(--card)}
+    .modal h3{margin:0 0 8px 0}
+
+    /* responsive small tweaks */
+    @media(min-width:420px){body{background:#f8fafc}}
+
+    /* misc */
+    .btn-icon{display:inline-flex;align-items:center;gap:8px}
+    .badge{font-size:11px;padding:6px 8px;border-radius:999px;background:#eef2ff;color:#0b57a6}
+    .search-row{display:flex;gap:8px;align-items:center}
+    .popup-result{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:22px;z-index:140}
+  </style>
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="card" style="display:flex;align-items:center;justify-content:space-between">
+      <div class="brand">
+        <div class="logo">H2</div>
+        <div>
+          <h1>H2tech — Cores & Veículos</h1>
+          <p class="subtitle">PWA offline • banco local (IndexedDB)</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="exportBtn" class="btn ghost">Exportar JSON</button>
+        <button id="importBtn" class="btn ghost">Importar</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="view-home" class="view active">
+        <div class="card">
+          <h3 style="margin-top:0">Ações rápidas</h3>
+          <div class="flex" style="margin-bottom:12px">
+            <button class="btn btn-icon" data-nav="adicionar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="white" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/></svg>Adicionar</button>
+            <button class="btn ghost" data-nav="cadastrar">Cadastrar</button>
+            <button class="btn ghost" data-nav="buscar">Buscar</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="card" style="padding:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><small class="subtitle">Montadoras</small><div id="count-mont" class="badge">0</div></div>
+                <button class="btn ghost" data-open-add="montadora">+ nova</button>
+              </div>
+            </div>
+            <div class="card" style="padding:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div><small class="subtitle">Códigos de Cor</small><div id="count-codcor" class="badge">0</div></div>
+                <button class="btn ghost" data-open-add="codcor">+ nova</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Adicionar -->
+      <section id="view-adicionar" class="view">
+        <div class="card">
+          <h3>Adicionar (cadastros base)</h3>
+
+          <div class="field">
+            <label>Montadora</label>
+            <div class="row"><input id="add-montadora" placeholder="Ex: Fiat" type="text" /><button class="btn" id="btn-save-mont">Salvar</button></div>
+          </div>
+
+          <div class="field">
+            <label>Veículo</label>
+            <div class="row"><input id="add-veiculo" placeholder="Ex: Palio" type="text" /><button class="btn" id="btn-save-veic">Salvar</button></div>
+          </div>
+
+          <div class="field">
+            <label>Cor do Veículo</label>
+            <div class="row"><input id="add-corveic" placeholder="Ex: Branco" type="text" /><button class="btn" id="btn-save-corv">Salvar</button></div>
+          </div>
+
+          <div class="field">
+            <label>Cód Universal</label>
+            <div class="row"><input id="add-coduni" placeholder="Ex: U12345" type="text" /><button class="btn" id="btn-save-coduni">Salvar</button></div>
+          </div>
+
+          <div class="field">
+            <label>Cód Cor (pode ter foto)</label>
+            <div class="row"><input id="add-codcor" placeholder="Ex: C-72 Azul" type="text" /><input id="add-codcor-foto" type="file" accept="image/*" /><button class="btn" id="btn-save-codcor">Salvar</button></div>
+          </div>
+
+          <div style="margin-top:10px"><small class="subtitle">Fotos e imagens são salvas como dataURL no banco local.</small></div>
+        </div>
+      </section>
+
+      <!-- Cadastrar -->
+      <section id="view-cadastrar" class="view">
+        <div class="card">
+          <h3>Cadastrar item (puxa dados automáticos)</h3>
+          <div class="field"><label>Montadora</label><select id="sel-montadora"></select></div>
+          <div class="field"><label>Veículo</label><select id="sel-veiculo"></select></div>
+          <div class="field"><label>Cor do Veículo</label><select id="sel-corveic"></select></div>
+          <div class="field"><label>Cód Cor</label><select id="sel-codcor"></select></div>
+
+          <div class="field"><label>Ano Início</label><input id="ano-inicio" type="number" min="1900" max="2100" /></div>
+          <div class="field"><label>Ano Fim</label><input id="ano-fim" type="number" min="1900" max="2100" /></div>
+
+          <div style="display:flex;gap:8px"><button id="btn-cadastrar-item" class="btn">Cadastrar</button><button id="btn-reset-cad" class="btn ghost">Limpar</button></div>
+
+          <hr style="margin:12px 0" />
+          <h4>Itens cadastrados</h4>
+          <div id="list-cadastrados" class="list"></div>
+        </div>
+      </section>
+
+      <!-- Buscar -->
+      <section id="view-buscar" class="view">
+        <div class="card">
+          <h3>Buscar</h3>
+          <div class="field"><label>Montadora</label><select id="q-montadora"><option value="">— qualquer —</option></select></div>
+          <div class="field"><label>Veículo</label><select id="q-veiculo"><option value="">— qualquer —</option></select></div>
+          <div class="field"><label>Cor do Veículo</label><select id="q-corveic"><option value="">— qualquer —</option></select></div>
+
+          <!-- NOTE: removi o select de Cod Cor conforme pedido; o código de cor aparece somente no resultado -->
+
+          <div class="search-row" style="margin-top:6px">
+            <input id="q-ano" type="number" placeholder="Ano (ex: 2005) - opcional" />
+            <button id="btn-search" class="btn">Pesquisar</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- popups / modals area -->
+    <div id="modal-area"></div>
+
+    <!-- bottom nav -->
+    <nav class="bottom-nav">
+      <div class="nav-btn active" data-nav="home"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 10.5L12 3l9 7.5" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="nav-label">Home</div></div>
+      <div class="nav-btn" data-nav="adicionar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="nav-label">Adicionar</div></div>
+      <div class="nav-btn" data-nav="cadastrar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M3 12h18M3 18h18" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="nav-label">Cadastrar</div></div>
+      <div class="nav-btn" data-nav="buscar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="5" stroke="#064e63" stroke-width="1.6"/></svg><div class="nav-label">Buscar</div></div>
+    </nav>
+
+  </div>
+
+  <script>
+  // ------------------ Simple IndexedDB wrapper ------------------
+  const DB_NAME = 'h2tech-db', DB_VER = 1;
+  let db;
+  function openDB(){
+    return new Promise((res, rej)=>{
+      const r = indexedDB.open(DB_NAME, DB_VER);
+      r.onupgradeneeded = e => {
+        const idb = e.target.result;
+        if(!idb.objectStoreNames.contains('montadoras')) idb.createObjectStore('montadoras',{keyPath:'id',autoIncrement:true});
+        if(!idb.objectStoreNames.contains('veiculos')) idb.createObjectStore('veiculos',{keyPath:'id',autoIncrement:true});
+        if(!idb.objectStoreNames.contains('corveic')) idb.createObjectStore('corveic',{keyPath:'id',autoIncrement:true});
+        if(!idb.objectStoreNames.contains('codcor')) idb.createObjectStore('codcor',{keyPath:'id',autoIncrement:true});
+        if(!idb.objectStoreNames.contains('itens')) idb.createObjectStore('itens',{keyPath:'id',autoIncrement:true});
+      };
+      r.onsuccess = e => { db = e.target.result; res(db); };
+      r.onerror = e => rej(e.target.error);
+    });
+  }
+  function tx(store, mode='readonly'){ return db.transaction(store, mode).objectStore(store); }
+  async function add(storeName, value){ return new Promise((res,rej)=>{ const t = db.transaction(storeName,'readwrite'); const s = t.objectStore(storeName); const r = s.add(value); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+  async function getAll(storeName){ return new Promise((res,rej)=>{ const t = db.transaction(storeName,'readonly'); const s = t.objectStore(storeName); const r = s.getAll(); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+  async function clearStore(storeName){ return new Promise((res,rej)=>{ const t=db.transaction(storeName,'readwrite'); const s=t.objectStore(storeName); const r=s.clear(); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); }); }
+  async function put(storeName, value){ return new Promise((res,rej)=>{ const t=db.transaction(storeName,'readwrite'); const s=t.objectStore(storeName); const r=s.put(value); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+
+  // ------------------ boot ------------------
+  (async function boot(){
+    await openDB();
+    bindNav();
+    bindAddButtons();
+    refreshCounts();
+    populateSelects();
+    bindExportImport();
+    registerPWA();
+    renderListCadastrados();
+  })();
+
+  // ------------------ UI helpers ------------------
+  function showView(id){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById('view-'+id).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.nav===id || (id==='home' && b.dataset.nav==='home')));
+  }
+  function bindNav(){
+    document.querySelectorAll('[data-nav]').forEach(btn=> btn.addEventListener('click', ()=> showView(btn.dataset.nav)));
+    document.querySelectorAll('.nav-btn').forEach(nb=> nb.addEventListener('click', ()=> showView(nb.dataset.nav)));
+  }
+
+  // ------------------ Add / Save primitives ------------------
+  function bindAddButtons(){
+    document.getElementById('btn-save-mont').addEventListener('click', async ()=>{
+      const v = document.getElementById('add-montadora').value.trim(); if(!v) return alert('Digite o nome da montadora');
+      await add('montadoras',{name:v}); document.getElementById('add-montadora').value=''; refreshCounts(); populateSelects();
+    });
+
+    document.getElementById('btn-save-veic').addEventListener('click', async ()=>{
+      const v = document.getElementById('add-veiculo').value.trim(); if(!v) return alert('Digite o veículo');
+      await add('veiculos',{name:v}); document.getElementById('add-veiculo').value=''; refreshCounts(); populateSelects();
+    });
+
+    document.getElementById('btn-save-corv').addEventListener('click', async ()=>{
+      const v = document.getElementById('add-corveic').value.trim(); if(!v) return alert('Digite a cor do veículo');
+      await add('corveic',{name:v}); document.getElementById('add-corveic').value=''; refreshCounts(); populateSelects();
+    });
+
+    document.getElementById('btn-save-coduni').addEventListener('click', async ()=>{
+      const v = document.getElementById('add-coduni').value.trim(); if(!v) return alert('Digite o código universal');
+      await add('codcor',{code:v}); document.getElementById('add-coduni').value=''; refreshCounts(); populateSelects();
+    });
+
+    document.getElementById('btn-save-codcor').addEventListener('click', async ()=>{
+      const code = document.getElementById('add-codcor').value.trim(); if(!code) return alert('Digite o código da cor');
+      const file = document.getElementById('add-codcor-foto').files[0];
+      let dataUrl = null;
+      if(file){ dataUrl = await toDataURL(file); }
+      await add('codcor',{code, img:dataUrl}); document.getElementById('add-codcor').value=''; document.getElementById('add-codcor-foto').value='';
+      refreshCounts(); populateSelects();
+    });
+
+    document.getElementById('btn-cadastrar-item').addEventListener('click', async ()=>{
+      const montId = +document.getElementById('sel-montadora').value;
+      const veicId = +document.getElementById('sel-veiculo').value;
+      const corvId = +document.getElementById('sel-corveic').value;
+      const codcorId = +document.getElementById('sel-codcor').value;
+      const ai = document.getElementById('ano-inicio').value; const af = document.getElementById('ano-fim').value;
+      if(!montId || !veicId || !corvId || !codcorId) return alert('Selecione todos os campos automáticos');
+      if(!ai || !af) return alert('Preencha Ano Início e Ano Fim');
+      if(+ai > +af) return alert('Ano Início não pode ser maior que Ano Fim');
+      const mont = await getById('montadoras', montId);
+      const veic = await getById('veiculos', veicId);
+      const corv = await getById('corveic', corvId);
+      const cod = await getById('codcor', codcorId);
+      await add('itens',{montadora:mont.name, veiculo:veic.name, corveiculo:corv.name, codcor:cod.code || '', codImg:cod.img||null, ano_inicio:parseInt(ai), ano_fim:parseInt(af), ts:Date.now()});
+      document.getElementById('ano-inicio').value=''; document.getElementById('ano-fim').value=''; renderListCadastrados();
+      alert('Item cadastrado com sucesso');
+    });
+
+    document.getElementById('btn-reset-cad').addEventListener('click', ()=>{ document.getElementById('sel-montadora').selectedIndex=0; document.getElementById('sel-veiculo').selectedIndex=0; document.getElementById('sel-corveic').selectedIndex=0; document.getElementById('sel-codcor').selectedIndex=0; document.getElementById('ano-inicio').value=''; document.getElementById('ano-fim').value=''; });
+
+    document.getElementById('btn-search').addEventListener('click', async ()=>{
+      // Note: codcor is NOT a search filter per your request
+      const mont = +document.getElementById('q-montadora').value || null;
+      const veic = +document.getElementById('q-veiculo').value || null;
+      const corv = +document.getElementById('q-corveic').value || null;
+      const yearRaw = document.getElementById('q-ano').value || null;
+      const year = yearRaw ? parseInt(yearRaw) : null;
+      const results = await search({mont,veic,corv,year});
+      showResultsPopup(results);
+    });
+
+    document.querySelectorAll('[data-open-add]').forEach(b=> b.addEventListener('click', ()=>{ const what = b.getAttribute('data-open-add'); showModalAddQuick(what); }));
+  }
+
+  function toDataURL(file){ return new Promise((res)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); }); }
+
+  // ------------------ DB helpers ------------------
+  async function getById(store, id){ return new Promise((res,rej)=>{ const t=db.transaction(store,'readonly').objectStore(store); const r=t.get(id); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+
+  async function refreshCounts(){ const m = await getAll('montadoras'); const c = await getAll('codcor'); document.getElementById('count-mont').textContent = m.length; document.getElementById('count-codcor').textContent = c.length; }
+
+  async function populateSelects(){
+    const mont = await getAll('montadoras'); const veic = await getAll('veiculos'); const cor = await getAll('corveic'); const cod = await getAll('codcor');
+    const sets = [ ['sel-montadora',mont], ['q-montadora',mont], ['sel-veiculo',veic], ['q-veiculo',veic], ['sel-corveic',cor], ['q-corveic',cor], ['sel-codcor',cod] ];
+    sets.forEach(([id,arr])=>{
+      const el = document.getElementById(id); if(!el) return; const cur = el.value;
+      // for select display label: montadoras/veiculos/corveic items have .name, codcor has .code
+      el.innerHTML = (id.startsWith('q-')?'<option value="">— qualquer —</option>':'<option value="">— selecione —</option>') + arr.map(it=>{
+        const label = it.name || it.code || ('#'+(it.id||''));
+        return `<option value="${it.id}">${escapeHtml(label)}</option>`;
+      }).join('');
+      if(cur) el.value = cur;
+    });
+  }
+
+  // escape for safety
+  function escapeHtml(s){ return String(s||'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+  async function renderListCadastrados(){ const list = await getAll('itens'); const root = document.getElementById('list-cadastrados'); root.innerHTML=''; if(!list.length) root.innerHTML='<div class="subtitle">Nenhum item cadastrado ainda</div>';
+    list.slice().reverse().forEach(it=>{
+      const div = document.createElement('div'); div.className='list-item';
+      const thumbHtml = it.codImg ? `<div class="thumb"><img src="${it.codImg}" alt="codcor"></div>` : `<div class="thumb">${escapeHtml(it.codcor||'')}</div>`;
+      div.innerHTML = `${thumbHtml}<div class="meta"><b>${escapeHtml(it.montadora)} — ${escapeHtml(it.veiculo)}</b><small>${escapeHtml(it.corveiculo)} • ${it.ano_inicio||'—'} até ${it.ano_fim||'—'}</small></div><div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><button class="btn ghost" data-id="${it.id}" onclick="deleteItem(${it.id})">Excluir</button></div>`;
+      root.appendChild(div);
+    }); }
+
+  window.deleteItem = async function(id){ if(!confirm('Excluir item?')) return; const t = db.transaction('itens','readwrite'); t.objectStore('itens').delete(id); t.oncomplete = ()=> renderListCadastrados(); }
+
+  // ------------------ SEARCH with year-interval logic ------------------
+  async function search({mont,veic,corv,year}){
+    const items = await getAll('itens');
+    return items.filter(it=>{
+      // mont, veic, corv are selected OPTION IDs from q- selects. We need to compare by name text
+      if(mont){
+        const mText = document.querySelector('#q-montadora option[value="'+mont+'"]')?.textContent || null;
+        if(mText && it.montadora !== mText) return false;
+      }
+      if(veic){
+        const vText = document.querySelector('#q-veiculo option[value="'+veic+'"]')?.textContent || null;
+        if(vText && it.veiculo !== vText) return false;
+      }
+      if(corv){
+        const cText = document.querySelector('#q-corveic option[value="'+corv+'"]')?.textContent || null;
+        if(cText && it.corveiculo !== cText) return false;
+      }
+      if(year !== null && year !== undefined){
+        // require that item has numeric ano_inicio and ano_fim stored
+        const ai = (typeof it.ano_inicio === 'number') ? it.ano_inicio : (it.ano_inicio ? parseInt(it.ano_inicio) : null);
+        const af = (typeof it.ano_fim === 'number') ? it.ano_fim : (it.ano_fim ? parseInt(it.ano_fim) : null);
+        if(ai === null || af === null) return false; // if item doesn't have both ends, treat as not matching
+        if(!(ai <= year && year <= af)) return false;
+      }
+      return true;
+    });
+  }
+
+  function showResultsPopup(results){
+    const modalArea = document.getElementById('modal-area'); modalArea.innerHTML = '';
+    const wrap = document.createElement('div'); wrap.className='popup-result';
+    const itemsHtml = results.map(r=>{
+      const imgHtml = r.codImg ? `<div style="width:80px;height:60px;border-radius:8px;overflow:hidden"><img src="${r.codImg}" style="width:100%;height:100%;object-fit:cover" alt="foto"></div>` : `<div style="width:80px;height:60px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#6b7280">${escapeHtml(r.codcor||'')}</div>`;
+      return `<div class="list-item" style="margin-bottom:8px;align-items:flex-start"><div class="thumb" style="width:auto;padding-right:8px;border-radius:8px;background:transparent;border:0">${imgHtml}</div><div class="meta"><b>${escapeHtml(r.montadora)} — ${escapeHtml(r.veiculo)}</b><small>${escapeHtml(r.corveiculo)} • ${r.ano_inicio||'—'} até ${r.ano_fim||'—'}</small><div style="margin-top:6px"><small><b>Cód Cor:</b> ${escapeHtml(r.codcor||'—')}</small></div></div></div>`;
+    }).join('');
+    wrap.innerHTML = `<div class="modal card"><h3>Resultados (${results.length})</h3><div style="max-height:60vh;overflow:auto">${itemsHtml || '<div class="subtitle">Nenhum resultado.</div>'}</div><div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="closeRes">Fechar</button></div></div>`;
+    modalArea.appendChild(wrap);
+    document.getElementById('closeRes').addEventListener('click', ()=> modalArea.innerHTML='');
+  }
+
+  function showModalAddQuick(what){ const modalArea = document.getElementById('modal-area'); modalArea.innerHTML=''; const m = document.createElement('div'); m.className='modal-back'; m.innerHTML = `<div class="modal"><h3>Nova ${what}</h3><div class="field"><input id="quick-val" placeholder="Digite..."/></div><div style="display:flex;gap:8px;justify-content:flex-end"><button id="quick-save" class="btn">Salvar</button><button id="quick-cancel" class="btn ghost">Cancelar</button></div></div>`; modalArea.appendChild(m);
+    document.getElementById('quick-cancel').addEventListener('click', ()=> modalArea.innerHTML='');
+    document.getElementById('quick-save').addEventListener('click', async ()=>{
+      const v = document.getElementById('quick-val').value.trim(); if(!v) return alert('Digite algo');
+      if(what === 'montadora') await add('montadoras',{name:v});
+      else if(what === 'veiculo') await add('veiculos',{name:v});
+      else if(what === 'corveic') await add('corveic',{name:v});
+      else if(what === 'codcor') await add('codcor',{code:v});
+      modalArea.innerHTML=''; refreshCounts(); populateSelects();
+    });
+  }
+
+  // ------------------ export / import
+  function bindExportImport(){
+    document.getElementById('exportBtn').addEventListener('click', async ()=>{
+      const mont = await getAll('montadoras'); const veic = await getAll('veiculos'); const cor = await getAll('corveic'); const cod = await getAll('codcor'); const itens = await getAll('itens');
+      const data = {montadoras:mont, veiculos:veic, corveic:cor, codcor:cod, itens};
+      const blob = new Blob([JSON.stringify(data, null,2)],{type:'application/json'});
+      const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='h2tech_backup.json'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('importBtn').addEventListener('click', ()=>{
+      const ip = document.createElement('input'); ip.type='file'; ip.accept='.json'; ip.onchange = async ()=>{
+        const f = ip.files[0]; if(!f) return; const txt = await f.text(); try{ const data = JSON.parse(txt); await importData(data); alert('Importado com sucesso'); refreshCounts(); populateSelects(); renderListCadastrados(); }catch(e){alert('Arquivo inválido')}
+      }; ip.click();
+    });
+  }
+  async function importData(data){ if(data.montadoras) for(const m of data.montadoras) await add('montadoras',{name:m.name}); if(data.veiculos) for(const v of data.veiculos) await add('veiculos',{name:v.name}); if(data.corveic) for(const c of data.corveic) await add('corveic',{name:c.name}); if(data.codcor) for(const cc of data.codcor) await add('codcor',{code:cc.code, img:cc.img||null}); if(data.itens) for(const it of data.itens) await add('itens',it); }
+
+  // ------------------ register pwa / service worker via blob ------------------
+  function registerPWA(){ if('serviceWorker' in navigator){ const swCode = document.getElementById('sw')?.textContent || `const CACHE='h2tech-cache-v1';self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>{}));});self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(f=>{caches.open(CACHE).then(c=>c.put(e.request,f.clone()));return f;}).catch(()=>{})));});`; const blob = new Blob([swCode], {type:'text/javascript'}); const swUrl = URL.createObjectURL(blob); navigator.serviceWorker.register(swUrl).then(()=>console.log('SW registrado')).catch(e=>console.warn(e)); }
+    // create manifest on the fly
+    const manifest = {name:'H2tech Cores',short_name:'H2 Cores',start_url:'/',display:'standalone',background_color:'#ffffff',theme_color:'#0ea5e9',icons:[{src:'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" viewBox=\\\"0 0 120 120\\\"><rect width=\\\"120\\\" height=\\\"120\\\" rx=\\\"24\\\" fill=\\\"%230ea5e9\\\"/><text x=\\\"50%\\\" y=\\\"56%\\\" font-size=\\\"48\\\" text-anchor=\\\"middle\\\" fill=\\\"white\\\" font-family=\\\"Arial\\\">H2</text></svg>') ,sizes:'192x192',type:'image/svg+xml'}] };
+    const manBlob = new Blob([JSON.stringify(manifest)],{type:'application/json'}); const manUrl = URL.createObjectURL(manBlob); const link = document.createElement('link'); link.rel='manifest'; link.href=manUrl; document.head.appendChild(link);
+  }
+
+  // small helper to get all stores count
+
+  // ------------------ misc utils ------------------
+
+  </script>
+
+  <!-- optional inline service worker source (fallback) -->
+  <script id="sw" type="javascript/worker">
+    const CACHE = 'h2tech-cache-v1';
+    self.addEventListener('install', e=>{
+      self.skipWaiting();
+      e.waitUntil(caches.open(CACHE).then(c=> c.addAll([]).catch(()=>{})));
+    });
+    self.addEventListener('activate', e=>{
+      e.waitUntil(self.clients.claim());
+    });
+    self.addEventListener('fetch', e=>{
+      if(e.request.method !== 'GET') return;
+      e.respondWith(caches.match(e.request).then(resp=> resp || fetch(e.request).then(f=>{ caches.open(CACHE).then(c=>c.put(e.request, f.clone())); return f; }).catch(()=> {})));
+    });
+  </script>
+
+</body>
+</html>
