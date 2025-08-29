@@ -156,10 +156,7 @@
           <p class="subtitle">PWA offline • banco local (IndexedDB)</p>
         </div>
       </div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button id="exportBtn" class="btn ghost">Exportar JSON</button>
-        <button id="importBtn" class="btn ghost">Importar</button>
-      </div>
+     
     </header>
 
     <main>
@@ -477,23 +474,6 @@
     });
   }
 
-  // ------------------ export / import
-  function bindExportImport(){
-    document.getElementById('exportBtn').addEventListener('click', async ()=>{
-      const mont = await getAll('montadoras'); const veic = await getAll('veiculos'); const cor = await getAll('corveic'); const cod = await getAll('codcor'); const itens = await getAll('itens');
-      const data = {montadoras:mont, veiculos:veic, corveic:cor, codcor:cod, itens};
-      const blob = new Blob([JSON.stringify(data, null,2)],{type:'application/json'});
-      const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='h2tech_backup.json'; a.click(); URL.revokeObjectURL(url);
-    });
-
-    document.getElementById('importBtn').addEventListener('click', ()=>{
-      const ip = document.createElement('input'); ip.type='file'; ip.accept='.json'; ip.onchange = async ()=>{
-        const f = ip.files[0]; if(!f) return; const txt = await f.text(); try{ const data = JSON.parse(txt); await importData(data); alert('Importado com sucesso'); refreshCounts(); populateSelects(); renderListCadastrados(); }catch(e){alert('Arquivo inválido')}
-      }; ip.click();
-    });
-  }
-  async function importData(data){ if(data.montadoras) for(const m of data.montadoras) await add('montadoras',{name:m.name}); if(data.veiculos) for(const v of data.veiculos) await add('veiculos',{name:v.name}); if(data.corveic) for(const c of data.corveic) await add('corveic',{name:c.name}); if(data.codcor) for(const cc of data.codcor) await add('codcor',{code:cc.code, img:cc.img||null}); if(data.itens) for(const it of data.itens) await add('itens',it); }
-
   // ------------------ register pwa / service worker via blob ------------------
   function registerPWA(){ if('serviceWorker' in navigator){ const swCode = document.getElementById('sw')?.textContent || `const CACHE='h2tech-cache-v1';self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>{}));});self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(f=>{caches.open(CACHE).then(c=>c.put(e.request,f.clone()));return f;}).catch(()=>{})));});`; const blob = new Blob([swCode], {type:'text/javascript'}); const swUrl = URL.createObjectURL(blob); navigator.serviceWorker.register(swUrl).then(()=>console.log('SW registrado')).catch(e=>console.warn(e)); }
     // create manifest on the fly
@@ -509,7 +489,7 @@
 
   <script>
   // ---------------- Mensagem de sucesso personalizada ----------------
-  function showSuccess(msg, width='90%'){
+  function showSuccess(msg, width='100%'){
     const popup = document.createElement('div');
     popup.style.position = 'fixed';
     popup.style.bottom = '20px';
