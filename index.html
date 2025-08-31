@@ -2,554 +2,313 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>ColoristaON - Automotivo Color</title>
-  <meta name="theme-color" content="#0ea5e9" />
-  <style>
-    /* --- Reset & base --- */
-    :root{
-      --bg:#f8fafc; --card:#ffffff; --muted:#6b7280; --accent:#0ea5e9; --glass: rgba(255,255,255,0.6);
-      --radius:14px; --shadow: 0 6px 18px rgba(2,6,23,0.08);
-      --mobile-width:420px;
-    }
-    *{
-      box-sizing:border-box;
-    }
-    html,body,#app{
-      height:100%;
-    }
-    body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-     margin:0; 
-     background:linear-gradient(180deg,#eef2ff 0%,var(--bg) 60%); 
-     color:#0f172a;
-    }
-    .app{max-width:var(--mobile-width); 
-      margin:0 auto;
-       min-height:calc(100vh - 36px); 
-       background:transparent;
-      }
-
-    /* --- Shell --- */
-    header{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:14px;
-      border-radius:16px;
-      margin-bottom:14px;
-      background: var(--accent);
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      background: var(--accent);
-    }
-    .logo{
-      width:46px;
-      height:46px;
-      border-radius:12px;
-      background:linear-gradient(135deg,var(--accent),#7dd3fc);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:white;
-      font-weight:700;
-      box-shadow:var(--shadow);
-    }
-    h1{font-size:16px;
-      margin:0;
-      color: #e0f2fe;
-    }
-    p.subtitle{margin:0;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    /* --- Card / main --- */
-    .card{
-      background:var(--card); 
-      border-radius:var(--radius); 
-      padding:15px;
-      box-shadow:var(--shadow);
-      margin-top: -120px;
-      }
-      .card h3{
-        margin-top: 0;
-      }
-      .card-2{
-      background:var(--accent); 
-      border-radius: 0;
-      padding-bottom: 120px;
-      }
-      .card-3{
-      background:var(--card); 
-      border-radius:var(--radius); 
-      padding:14px;
-      box-shadow:var(--shadow);
-      }
-    nav.bottom-nav{
-      position:fixed;
-      left:50%;
-      transform:translateX(-50%);
-      bottom:0;
-      display:flex;
-      gap:8px;
-      max-width: 500px;
-      width: 100%;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 20px;
-      background: var(--card);
-    }
-    .nav-btn{width:62px;height:62px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,0.9),var(--glass));display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(2,6,23,0.06);transition:transform .18s ease}
-    .nav-btn:active{transform:scale(.98)}
-    .nav-btn.active{background:linear-gradient(180deg,#e6f7ff,#e0f2fe);border:1px solid rgba(14,165,233,0.12)}
-    .nav-btn svg{width:22px;height:22px}
-    .nav-label{font-size:11px;color:var(--muted);margin-top:6px}
-
-    /* --- Views --- */
-    .view{display:none;padding-bottom:90px}
-    .view.active{display:block}
-    .flex{display:flex;gap:8px}
-    .field{display:flex;flex-direction:column;margin-bottom:10px}
-    label{font-size:12px;color:var(--muted);margin-bottom:6px}
-    input[type=text], select, input[type=number]{padding:10px;border-radius:10px;border:1px solid #e6eef6;background:linear-gradient(180deg,#fff,#fbfdff); font-size: 16px;}
-    button.btn{padding:10px 12px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),#06b6d4);color:white;font-weight:600;cursor:pointer}
-    .btn.ghost{background:transparent;border:1px dashed #e2e8f0;color:var(--muted)}
-
-    /* list */
-    .list{display:grid;gap:8px}
-    .list-item{padding:10px;border-radius:10px;background:linear-gradient(180deg,#fff,#fbffff);display:flex;align-items:center;gap:12px;border:1px solid #f1f5f9}
-    .thumb{width:56px;height:40px;border-radius:8px;flex-shrink:0;background:#f8fafc;border:1px solid #e6eef6;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);overflow:hidden}
-    .thumb img{width:100%;height:100%;object-fit:cover}
-    .meta{flex:1}
-    .meta b{display:block}
-    .row{display:flex;gap:8px;align-items:center}
-    .row input {
-  flex:1;          /* ocupa todo espaço disponível */
-  min-width:0;     /* evita overflow */
-  font-size:16px;  /* importante: teclados mobile não abrem em fontes <16px */
-}
-
-    /* modals */
-    .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.4);display:flex;align-items:flex-end;justify-content:center;padding:18px;z-index:120}
-    .modal{width:100%;max-width:420px;border-radius:18px;padding:14px;background:var(--card)}
-    .modal h3{margin:0 0 8px 0}
-
-    /* responsive small tweaks */
-    @media(min-width:420px){body{background:#f8fafc}}
-
-    /* misc */
-    .btn-icon{display:inline-flex;align-items:center;gap:8px}
-    .badge{font-size:11px;padding:6px 8px;border-radius:999px;background:#eef2ff;color:#0b57a6}
-    .search-row{display:flex;gap:8px;align-items:center}
-    .popup-result{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:22px;z-index:140}
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Empréstimos • Pan (clone)</title>
+  <link rel="stylesheet" href="app.css">
+  <meta name="theme-color" content="#fefefe">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 </head>
 <body>
-  <div id="app" class="app">
-    <header class="card-2" style="display:flex;align-items:center;justify-content:space-between">
-      <div class="brand">
-        <div class="logo">CON</div>
-        <div>
-          <h1>ColoristaON</h1>
-          <p class="subtitle">Automotivo • Cores Veiculos (Padrão)</p>
+  <!--Carregamento da pagina-->
+<div id="preloader">
+  <div class="logo-container">
+    <img src="icons/icon-192.png" alt="Logo" class="logo">
+  </div>
+  <canvas id="particles"></canvas>
+</div>
+
+  <div class="app" id="app">
+    <!-- HOME -->
+    <div class="screen active" id="screen-home" role="group" aria-label="Tela Home">
+<header>
+  <div class="topbar">
+    <div style="width:40px;height:40px;"></div>
+    <div style="margin-left:auto; opacity:.95;">
+      <img src="icons/icon-192.png" width="45" height="45" alt="logo">
+    </div>
+  </div>
+  <h1 class="logo-text">Chama<span> Serviços</span></h1>
+  <p class="logo-subtext">O que você está buscando hoje em</p>
+  <p class="logo-subtext" id="city-state" style="color:#0ea5e9; margin-top:-10px; cursor:pointer;">Ativar Localização</p>
+
+</p>
+      <!-- Campo de busca moderno -->
+  <div class="search-box">
+    <input type="text" placeholder="Ex. Pintor, Eletricista, Pedreiro ..." />
+    <button type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- Popup personalizado -->
+<div id="geo-popup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;">
+  <div style="background:#fff; padding:20px; border-radius:14px; max-width:300px; text-align:center;">
+    <h3>Permitir Localização</h3>
+    <p>Para melhorar sua experiência, precisamos acessar sua localização.</p>
+    <button id="allow-location" style="padding:10px 20px; background:#0ea5e9; color:#fff; border:none; border-radius:8px; font-weight:700; margin-top:10px;">Permitir</button>
+    <button id="deny-location" style="padding:10px 20px; background:#eee; color:#333; border:none; border-radius:8px; font-weight:700; margin-top:10px;">Cancelar</button>
+  </div>
+</div>
+
+      <main>
+        <div class="content">
+          <div class="top-card tappable" onclick="App.toast('Promoção Especial')">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-size:13px; opacity:.95;">Voçê é prestador de serviços ?</div>
+                <div class="big">Cadastre-se já</div>
+                <div class="rate">Gratuitamente</div>
+              </div>
+              <div style="width:84px; height:84px; display:flex; align-items:center; justify-content:center; border-radius:18px; background:rgba(255,255,255,.12);">
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6"><path d="M12 3l7 4v5c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V7l7-4z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid">
+            <button class="card tappable" onclick="App.toast('Consignado - em breve')">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="3"/><path d="M7 8h10M7 12h4"/></svg>
+              </div>
+              <div class="title">Reparo e Reformas</div>
+            </button>
+            <button class="card tappable" onclick="App.toast('Financiamento de veículos - em breve')">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.6"><path d="M3 13l2-4h14l2 4"/><rect x="5" y="13" width="14" height="6" rx="2"/></svg>
+              </div>
+              <div class="title">Assistência Técnica</div>
+            </button>
+            <button class="card tappable" onclick="App.toast('Empréstimo Pessoal - em breve')">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 14h2"/></svg>
+              </div>
+              <div class="title">Veículos</div>
+            </button>
+            <button class="card tappable" onclick="App.navigate('screen-fgts')">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h7"/></svg>
+              </div>
+              <div class="title">Moda e Beleza</div>
+            </button>
+            <button class="card tappable" onclick="App.toast('Empréstimo com garantia - em breve')">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.6"><path d="M12 3l7 4v5c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V7l7-4z"/></svg>
+              </div>
+              <div class="title">Eventos</div>
+            </button>
+             <button class="card tappable" onclick="App.toast('Empréstimo com garantia - em breve')">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.6"><path d="M12 3l7 4v5c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V7l7-4z"/></svg>
+              </div>
+              <div class="title">Saúde</div>
+            </button>
+            <button class="card tappable" onclick="App.toast('Crédito do Trabalhador - em breve')">
+              <div class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.6"><rect x="4" y="3" width="16" height="12" rx="2"/><path d="M8 21v-6h8v6"/></svg>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <div class="title">Crédito do Trabalhador</div>
+                <span style="background:#fff;color:#0ea5e9;padding:4px 8px;border-radius:999px;font-weight:800;font-size:11px;margin-left:6px;">NOVO</span>
+              </div>
+            </button>
+          </div>
+
+          <button class="rowlink tappable" onclick="App.toast('Meus Contratos - abrir')">
+            <div class="left">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h6"/></svg>
+              <div class="title" style="font-weight:900;">Meus Contratos &nbsp</div>
+            </div>
+            <svg class="chev" viewBox="0 0 8 14" fill="none" stroke="#0f172a" stroke-width="2"><path d="M1 1l6 6-6 6"/></svg>
+          </button>
+
+          <button class="rowlink tappable" onclick="App.navigate('screen-sim')">
+            <div class="left">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <div class="title" style="font-weight:900;">Simular empréstimo ideal&nbsp</div>
+            </div>
+            <svg class="chev" viewBox="0 0 8 14" fill="none" stroke="#0f172a" stroke-width="2"><path d="M1 1l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </main>
+
+       <div class="chipbar">
+        <div class="chips">
+          <button class="chip" onclick="App.navigate('screen-menu')">Cartões</button>
+          <button class="chip active" onclick="App.navigate('screen-home')">Empréstimos</button>
+          <button class="chip" onclick="App.toast('Investimentos - em breve')">Investimentos</button>
         </div>
       </div>
-    </header>
+    </div>
 
-    <main>
-      <section id="view-home" class="view active">
-        <div class="card">
-          <h3 style="margin-top:0">Ações rápidas</h3>
-          <div class="flex" style="margin-bottom:12px">
-            <button class="btn btn-icon" data-nav="adicionar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18"><path fill="white" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/></svg>Adicionar</button>
-            <button class="btn ghost" data-nav="cadastrar">Cadastrar</button>
-            <button class="btn ghost" data-nav="buscar">Buscar</button>
+    <!-- FGTS -->
+    <div class="screen" id="screen-fgts" role="group" aria-label="Tela FGTS">
+      <header>
+        <div class="topbar">
+            <button class="back" aria-label="Voltar" onclick="App.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div style="margin-left:auto; opacity:.95;">
+            <img src="icons/icon-192.png" width="36" height="36" alt="logo">
           </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <div class="card-3" style="padding:10px">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div><small class="subtitle">Montadoras</small><div id="count-mont" class="badge">0</div></div>
-                <button class="btn ghost" data-open-add="montadora">+ nova</button>
-              </div>
+        </div>
+        <div style="padding:12px 16px 8px;">
+          <div class="big">Antecipe seu FGTS com taxas a partir de</div>
+          <div class="rate">1,29% a.m</div>
+          <p class="subtitle" style="margin-top:6px;">Você precisa seguir as etapas no app do FGTS</p>
+        </div>
+      </header>
+      <main>
+        <div class="content">
+          <div class="step">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h7"/></svg>
+            <div>
+              <div class="title" style="margin:0;">Aderir ao Saque Aniversário</div>
             </div>
-            <div class="card-3" style="padding:10px">
-              <div style="display:flex;justify-content:space-between;align-items:center">
-                <div><small class="subtitle">Códigos de Cor</small><div id="count-codcor" class="badge">0</div></div>
-                <button class="btn ghost" data-open-add="codcor">+ nova</button>
-              </div>
+          </div>
+          <div class="step" style="border-bottom:none;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.6"><path d="M12 1v6M12 17v6M4 12h16"/><circle cx="12" cy="12" r="4"/></svg>
+            <div style="flex:1;">
+              <div class="title" style="margin:0;">Autorizar a Pan Financeira a consultar seu FGTS</div>
+              <small class="subtitle" style="display:block; margin:6px 0 0 0;">Autorizo a <strong>Consulta de dados no MTE/Dataprev</strong>, para identificar ofertas de consignado.</small>
+            </div>
+            <div class="toggle" id="sw-consulta" role="switch" aria-checked="false">
+              <input type="checkbox" aria-label="Ativar consulta">
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div class="btngroup">
+        <button class="btn primary tappable" onclick="App.toast('Simulação iniciada')">Quero simular</button>
+        <div style="height:10px;"></div>
+        <button class="btn ghost tappable" onclick="App.toast('Abrindo passo a passo')">Saiba como autorizar</button>
+      </div>
+    </div>
+
+    <!-- CATEGORIA -->
+    <div class="screen" id="screen-categoria" role="group" aria-label="Tela Categorias">
+  <header>
+        <div class="topbar">
+          <button class="back" aria-label="Voltar" onclick="App.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div style="margin-left:auto; opacity:.95;">
+            <img src="icons/icon-192.png" width="36" height="36" alt="logo">
+          </div>
+        </div>
+        <div style="padding:12px 16px 8px;">
+          <div class="big">Buscar</div>
+          <p class="subtitle" style="margin-top:6px;">O que procura hoje ?</p>
+        </div>
+      </header>
+      <main>
+        <div class="content">
+          <div class="step">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h7"/></svg>
+            <div>
+              <div class="title" style="margin:0;">Pedreiro</div>
+               <small class="subtitle" style="display:block; margin:6px 0 0 0;">Reparo e Reformas</small>
             </div>
           </div>
 
-        </div>
-      </section>
-
-      <!-- Adicionar -->
-      <section id="view-adicionar" class="view">
-        <div class="card">
-          <h3>Adicionar (cadastros base)</h3>
-
-          <div class="field">
-            <label>Montadora</label>
-            <div class="row"><input id="add-montadora" placeholder="Ex: Fiat" type="text" /><button class="btn" id="btn-save-mont">Salvar</button></div>
+                    <div class="step">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h7"/></svg>
+            <div>
+              <div class="title" style="margin:0;">Pedreiro</div>
+               <small class="subtitle" style="display:block; margin:6px 0 0 0;">Reparo e Reformas</small>
+            </div>
           </div>
 
-          <div class="field">
-            <label>Veículo</label>
-            <div class="row"><input id="add-veiculo" placeholder="Ex: Palio" type="text" /><button class="btn" id="btn-save-veic">Salvar</button></div>
-          </div>
+          <div class="step" style="border-bottom:none;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.6"><path d="M12 1v6M12 17v6M4 12h16"/><circle cx="12" cy="12" r="4"/></svg>
+            <div style="flex:1;">
+              <div class="title" style="margin:0;">Pintor</div>
+              <small class="subtitle" style="display:block; margin:6px 0 0 0;">Reparo e Reformas</small>
+            </div>
 
-          <div class="field">
-            <label>Cor do Veículo</label>
-            <div class="row"><input id="add-corveic" placeholder="Ex: Branco" type="text" /><button class="btn" id="btn-save-corv">Salvar</button></div>
-          </div>
 
-          <div class="field">
-            <label>Cód Universal</label>
-            <div class="row"><input id="add-coduni" placeholder="Ex: U12345" type="text" /><button class="btn" id="btn-save-coduni">Salvar</button></div>
-          </div>
-
-         <div class="field">
-  <label>Cód Cor (pode ter foto)</label>
-  <input id="add-codcor" placeholder="Ex: C-72 Azul" type="text" />
-  <div class="row">
-    <input id="add-codcor-foto" type="file" accept="image/*" />
-    <button class="btn" id="btn-save-codcor">Salvar</button>
-  </div>
-</div>
-<div style="margin-top:10px">
-  <small class="subtitle">Fotos e imagens são salvas como dataURL no banco local.</small>
-</div>
-      </section>
-
-      <!-- Cadastrar -->
-      <section id="view-cadastrar" class="view">
-        <div class="card">
-          <h3>Cadastrar item (puxa dados automáticos)</h3>
-          <div class="field"><label>Montadora</label><select id="sel-montadora"></select></div>
-          <div class="field"><label>Veículo</label><select id="sel-veiculo"></select></div>
-          <div class="field"><label>Cor do Veículo</label><select id="sel-corveic"></select></div>
-          <div class="field"><label>Cód Cor</label><select id="sel-codcor"></select></div>
-
-          <div class="field"><label>Ano Início</label><input id="ano-inicio" type="number" min="1900" max="2100" /></div>
-          <div class="field"><label>Ano Fim</label><input id="ano-fim" type="number" min="1900" max="2100" /></div>
-
-          <div style="display:flex;gap:8px"><button id="btn-cadastrar-item" class="btn">Cadastrar</button><button id="btn-reset-cad" class="btn ghost">Limpar</button></div>
-
-          <hr style="margin:12px 0" />
-          <h4>Itens cadastrados</h4>
-          <div id="list-cadastrados" class="list"></div>
-        </div>
-      </section>
-
-      <!-- Buscar -->
-      <section id="view-buscar" class="view">
-        <div class="card">
-          <h3>Buscar</h3>
-          <div class="field"><label>Montadora</label><select id="q-montadora"><option value="">— qualquer —</option></select></div>
-          <div class="field"><label>Veículo</label><select id="q-veiculo"><option value="">— qualquer —</option></select></div>
-          <div class="field"><label>Cor do Veículo</label><select id="q-corveic"><option value="">— qualquer —</option></select></div>
-
-          <!-- NOTE: removi o select de Cod Cor conforme pedido; o código de cor aparece somente no resultado -->
-
-          <div class="search-row" style="margin-top:6px">
-            <input id="q-ano" type="number" placeholder="Ano (ex: 2005) - opcional" />
-            <button id="btn-search" class="btn">Pesquisar</button>
+            
           </div>
         </div>
-      </section>
+      </main>
+     
+    </div>
 
-    </main>
-
-    <!-- popups / modals area -->
-    <div id="modal-area"></div>
-
-    <!-- bottom nav -->
-    <nav class="bottom-nav">
-      <div class="nav-btn active" data-nav="home"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 10.5L12 3l9 7.5" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="nav-label">Home</div></div>
-      <div class="nav-btn" data-nav="adicionar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12h14" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="nav-label">Adicionar</div></div>
-      <div class="nav-btn" data-nav="cadastrar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M3 12h18M3 18h18" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="nav-label">Cadastrar</div></div>
-      <div class="nav-btn" data-nav="buscar"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="#064e63" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="5" stroke="#064e63" stroke-width="1.6"/></svg><div class="nav-label">Buscar</div></div>
-    </nav>
+    <!-- MENU -->
+    <div class="screen" id="screen-menu" role="group" aria-label="Tela Menu">
+  <header>
+        <div class="topbar">
+          <button class="back" aria-label="Voltar" onclick="App.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div style="margin-left:auto; opacity:.95;">
+            <img src="icons/icon-192.png" width="36" height="36" alt="logo">
+          </div>
+        </div>
+        <div style="padding:12px 16px 8px;">
+          <div class="big">Menu</div>
+          <p class="subtitle" style="margin-top:6px;">Suas cofiguraçoes</p>
+        </div>
+      </header>
+      <main>
+        <div class="content">
+          <div class="step">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h7"/></svg>
+            <div>
+              <div class="title" style="margin:0;">Aderir ao Saque Aniversário</div>
+            </div>
+          </div>
+          <div class="step" style="border-bottom:none;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0f172a" stroke-width="1.6"><path d="M12 1v6M12 17v6M4 12h16"/><circle cx="12" cy="12" r="4"/></svg>
+            <div style="flex:1;">
+              <div class="title" style="margin:0;">Autorizar a Pan Financeira a consultar seu FGTS</div>
+              <small class="subtitle" style="display:block; margin:6px 0 0 0;">Autorizo a <strong>Consulta de dados no MTE/Dataprev</strong>, para identificar ofertas de consignado.</small>
+            </div>
+            <div class="toggle" id="config" role="switch" aria-checked="false">
+              <input type="checkbox" aria-label="Ativar consulta">
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </main>
+      <div class="btngroup">
+        <button class="btn primary tappable" onclick="App.toast('Simulação iniciada')">Quero simular</button>
+        <div style="height:10px;"></div>
+        <button class="btn ghost tappable" onclick="App.toast('Abrindo passo a passo')">Saiba como autorizar</button>
+      </div>
+     
+    </div>
 
   </div>
 
-  <script>
-  // ------------------ Simple IndexedDB wrapper ------------------
-  const DB_NAME = 'h2tech-db', DB_VER = 1;
-  let db;
-  function openDB(){
-    return new Promise((res, rej)=>{
-      const r = indexedDB.open(DB_NAME, DB_VER);
-      r.onupgradeneeded = e => {
-        const idb = e.target.result;
-        if(!idb.objectStoreNames.contains('montadoras')) idb.createObjectStore('montadoras',{keyPath:'id',autoIncrement:true});
-        if(!idb.objectStoreNames.contains('veiculos')) idb.createObjectStore('veiculos',{keyPath:'id',autoIncrement:true});
-        if(!idb.objectStoreNames.contains('corveic')) idb.createObjectStore('corveic',{keyPath:'id',autoIncrement:true});
-        if(!idb.objectStoreNames.contains('codcor')) idb.createObjectStore('codcor',{keyPath:'id',autoIncrement:true});
-        if(!idb.objectStoreNames.contains('itens')) idb.createObjectStore('itens',{keyPath:'id',autoIncrement:true});
-      };
-      r.onsuccess = e => { db = e.target.result; res(db); };
-      r.onerror = e => rej(e.target.error);
-    });
-  }
-  function tx(store, mode='readonly'){ return db.transaction(store, mode).objectStore(store); }
-  async function add(storeName, value){ return new Promise((res,rej)=>{ const t = db.transaction(storeName,'readwrite'); const s = t.objectStore(storeName); const r = s.add(value); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
-  async function getAll(storeName){ return new Promise((res,rej)=>{ const t = db.transaction(storeName,'readonly'); const s = t.objectStore(storeName); const r = s.getAll(); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
-  async function clearStore(storeName){ return new Promise((res,rej)=>{ const t=db.transaction(storeName,'readwrite'); const s=t.objectStore(storeName); const r=s.clear(); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); }); }
-  async function put(storeName, value){ return new Promise((res,rej)=>{ const t=db.transaction(storeName,'readwrite'); const s=t.objectStore(storeName); const r=s.put(value); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+  <div class="menu" role="navigation" aria-label="Menu principal">
+    <button id="m-home" class="tappable active" onclick="App.navigate('screen-home')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"/></svg>
+      <div style="font-size:11px; margin-top:4px;">Início</div>
+    </button>
+    <button id="m-categoria" class="tappable" onclick="App.navigate('screen-categoria')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <div style="font-size:11px; margin-top:4px;">Categorias</div>
+    </button>
+    <button id="m-fgts" class="tappable" onclick="App.navigate('screen-fgts')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h7"/></svg>
+      <div style="font-size:11px; margin-top:4px;">FGTS</div>
+    </button>
+    <button id="m-menu" class="tappable" onclick="App.navigate('screen-menu')">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg>
+      <div style="font-size:11px; margin-top:4px;">Menu</div>
+    </button>
+  </div>
 
-  // ------------------ boot ------------------
-  (async function boot(){
-    await openDB();
-    bindNav();
-    bindAddButtons();
-    refreshCounts();
-    populateSelects();
-    bindExportImport();
-    registerPWA();
-    renderListCadastrados();
-  })();
+  <div class="toast" id="toast" role="status" aria-live="polite">...</div>
 
-  // ------------------ UI helpers ------------------
-  function showView(id){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); document.getElementById('view-'+id).classList.add('active');
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.nav===id || (id==='home' && b.dataset.nav==='home')));
-  }
-  function bindNav(){
-    document.querySelectorAll('[data-nav]').forEach(btn=> btn.addEventListener('click', ()=> showView(btn.dataset.nav)));
-    document.querySelectorAll('.nav-btn').forEach(nb=> nb.addEventListener('click', ()=> showView(nb.dataset.nav)));
-  }
-
-  // ------------------ Add / Save primitives ------------------
-  function bindAddButtons(){
-    document.getElementById('btn-save-mont').addEventListener('click', async ()=>{
-      const v = document.getElementById('add-montadora').value.trim(); if(!v) return alert('Digite o nome da montadora');
-      await add('montadoras',{name:v}); document.getElementById('add-montadora').value=''; refreshCounts(); populateSelects();
-    });
-
-    document.getElementById('btn-save-veic').addEventListener('click', async ()=>{
-      const v = document.getElementById('add-veiculo').value.trim(); if(!v) return alert('Digite o veículo');
-      await add('veiculos',{name:v}); document.getElementById('add-veiculo').value=''; refreshCounts(); populateSelects();
-    });
-
-    document.getElementById('btn-save-corv').addEventListener('click', async ()=>{
-      const v = document.getElementById('add-corveic').value.trim(); if(!v) return alert('Digite a cor do veículo');
-      await add('corveic',{name:v}); document.getElementById('add-corveic').value=''; refreshCounts(); populateSelects();
-    });
-
-    document.getElementById('btn-save-coduni').addEventListener('click', async ()=>{
-      const v = document.getElementById('add-coduni').value.trim(); if(!v) return alert('Digite o código universal');
-      await add('codcor',{code:v}); document.getElementById('add-coduni').value=''; refreshCounts(); populateSelects();
-    });
-
-    document.getElementById('btn-save-codcor').addEventListener('click', async ()=>{
-      const code = document.getElementById('add-codcor').value.trim(); if(!code) return alert('Digite o código da cor');
-      const file = document.getElementById('add-codcor-foto').files[0];
-      let dataUrl = null;
-      if(file){ dataUrl = await toDataURL(file); }
-      await add('codcor',{code, img:dataUrl}); document.getElementById('add-codcor').value=''; document.getElementById('add-codcor-foto').value='';
-      refreshCounts(); populateSelects();
-    });
-
-    document.getElementById('btn-cadastrar-item').addEventListener('click', async ()=>{
-      const montId = +document.getElementById('sel-montadora').value;
-      const veicId = +document.getElementById('sel-veiculo').value;
-      const corvId = +document.getElementById('sel-corveic').value;
-      const codcorId = +document.getElementById('sel-codcor').value;
-      const ai = document.getElementById('ano-inicio').value; const af = document.getElementById('ano-fim').value;
-      if(!montId || !veicId || !corvId || !codcorId) return alert('Selecione todos os campos automáticos');
-      if(!ai || !af) return alert('Preencha Ano Início e Ano Fim');
-      if(+ai > +af) return alert('Ano Início não pode ser maior que Ano Fim');
-      const mont = await getById('montadoras', montId);
-      const veic = await getById('veiculos', veicId);
-      const corv = await getById('corveic', corvId);
-      const cod = await getById('codcor', codcorId);
-      await add('itens',{montadora:mont.name, veiculo:veic.name, corveiculo:corv.name, codcor:cod.code || '', codImg:cod.img||null, ano_inicio:parseInt(ai), ano_fim:parseInt(af), ts:Date.now()});
-      document.getElementById('ano-inicio').value=''; document.getElementById('ano-fim').value=''; renderListCadastrados();
-      alert('Item cadastrado com sucesso');
-    });
-
-    document.getElementById('btn-reset-cad').addEventListener('click', ()=>{ document.getElementById('sel-montadora').selectedIndex=0; document.getElementById('sel-veiculo').selectedIndex=0; document.getElementById('sel-corveic').selectedIndex=0; document.getElementById('sel-codcor').selectedIndex=0; document.getElementById('ano-inicio').value=''; document.getElementById('ano-fim').value=''; });
-
-    document.getElementById('btn-search').addEventListener('click', async ()=>{
-      // Note: codcor is NOT a search filter per your request
-      const mont = +document.getElementById('q-montadora').value || null;
-      const veic = +document.getElementById('q-veiculo').value || null;
-      const corv = +document.getElementById('q-corveic').value || null;
-      const yearRaw = document.getElementById('q-ano').value || null;
-      const year = yearRaw ? parseInt(yearRaw) : null;
-      const results = await search({mont,veic,corv,year});
-      showResultsPopup(results);
-    });
-
-    document.querySelectorAll('[data-open-add]').forEach(b=> b.addEventListener('click', ()=>{ const what = b.getAttribute('data-open-add'); showModalAddQuick(what); }));
-  }
-
-  function toDataURL(file){ return new Promise((res)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); }); }
-
-  // ------------------ DB helpers ------------------
-  async function getById(store, id){ return new Promise((res,rej)=>{ const t=db.transaction(store,'readonly').objectStore(store); const r=t.get(id); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
-
-  async function refreshCounts(){ const m = await getAll('montadoras'); const c = await getAll('codcor'); document.getElementById('count-mont').textContent = m.length; document.getElementById('count-codcor').textContent = c.length; }
-
-  async function populateSelects(){
-    const mont = await getAll('montadoras'); const veic = await getAll('veiculos'); const cor = await getAll('corveic'); const cod = await getAll('codcor');
-    const sets = [ ['sel-montadora',mont], ['q-montadora',mont], ['sel-veiculo',veic], ['q-veiculo',veic], ['sel-corveic',cor], ['q-corveic',cor], ['sel-codcor',cod] ];
-    sets.forEach(([id,arr])=>{
-      const el = document.getElementById(id); if(!el) return; const cur = el.value;
-      // for select display label: montadoras/veiculos/corveic items have .name, codcor has .code
-      el.innerHTML = (id.startsWith('q-')?'<option value="">— qualquer —</option>':'<option value="">— selecione —</option>') + arr.map(it=>{
-        const label = it.name || it.code || ('#'+(it.id||''));
-        return `<option value="${it.id}">${escapeHtml(label)}</option>`;
-      }).join('');
-      if(cur) el.value = cur;
-    });
-  }
-
-  // escape for safety
-  function escapeHtml(s){ return String(s||'').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
-
-  async function renderListCadastrados(){ const list = await getAll('itens'); const root = document.getElementById('list-cadastrados'); root.innerHTML=''; if(!list.length) root.innerHTML='<div class="subtitle">Nenhum item cadastrado ainda</div>';
-    list.slice().reverse().forEach(it=>{
-      const div = document.createElement('div'); div.className='list-item';
-      const thumbHtml = it.codImg ? `<div class="thumb"><img src="${it.codImg}" alt="codcor"></div>` : `<div class="thumb">${escapeHtml(it.codcor||'')}</div>`;
-      div.innerHTML = `${thumbHtml}<div class="meta"><b>${escapeHtml(it.montadora)} — ${escapeHtml(it.veiculo)}</b><small>${escapeHtml(it.corveiculo)} • ${it.ano_inicio||'—'} até ${it.ano_fim||'—'}</small></div><div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end"><button class="btn ghost" data-id="${it.id}" onclick="deleteItem(${it.id})">Excluir</button></div>`;
-      root.appendChild(div);
-    }); }
-
-  window.deleteItem = async function(id){ if(!confirm('Excluir item?')) return; const t = db.transaction('itens','readwrite'); t.objectStore('itens').delete(id); t.oncomplete = ()=> renderListCadastrados(); }
-
-  // ------------------ SEARCH with year-interval logic ------------------
-  async function search({mont,veic,corv,year}){
-    const items = await getAll('itens');
-    return items.filter(it=>{
-      // mont, veic, corv are selected OPTION IDs from q- selects. We need to compare by name text
-      if(mont){
-        const mText = document.querySelector('#q-montadora option[value="'+mont+'"]')?.textContent || null;
-        if(mText && it.montadora !== mText) return false;
-      }
-      if(veic){
-        const vText = document.querySelector('#q-veiculo option[value="'+veic+'"]')?.textContent || null;
-        if(vText && it.veiculo !== vText) return false;
-      }
-      if(corv){
-        const cText = document.querySelector('#q-corveic option[value="'+corv+'"]')?.textContent || null;
-        if(cText && it.corveiculo !== cText) return false;
-      }
-      if(year !== null && year !== undefined){
-        // require that item has numeric ano_inicio and ano_fim stored
-        const ai = (typeof it.ano_inicio === 'number') ? it.ano_inicio : (it.ano_inicio ? parseInt(it.ano_inicio) : null);
-        const af = (typeof it.ano_fim === 'number') ? it.ano_fim : (it.ano_fim ? parseInt(it.ano_fim) : null);
-        if(ai === null || af === null) return false; // if item doesn't have both ends, treat as not matching
-        if(!(ai <= year && year <= af)) return false;
-      }
-      return true;
-    });
-  }
-
-  function showResultsPopup(results){
-    const modalArea = document.getElementById('modal-area'); modalArea.innerHTML = '';
-    const wrap = document.createElement('div'); wrap.className='popup-result';
-    const itemsHtml = results.map(r=>{
-      const imgHtml = r.codImg ? `<div style="width:80px;height:60px;border-radius:8px;overflow:hidden"><img src="${r.codImg}" style="width:100%;height:100%;object-fit:cover" alt="foto"></div>` : `<div style="width:80px;height:60px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#6b7280">${escapeHtml(r.codcor||'')}</div>`;
-      return `<div class="list-item" style="margin-bottom:8px;align-items:flex-start"><div class="thumb" style="width:auto;padding-right:8px;border-radius:8px;background:transparent;border:0">${imgHtml}</div><div class="meta"><b>${escapeHtml(r.montadora)} — ${escapeHtml(r.veiculo)}</b><small>${escapeHtml(r.corveiculo)} • ${r.ano_inicio||'—'} até ${r.ano_fim||'—'}</small><div style="margin-top:6px"><small><b>Cód Cor:</b> ${escapeHtml(r.codcor||'—')}</small></div></div></div>`;
-    }).join('');
-    wrap.innerHTML = `<div class="modal card"><h3>Resultados (${results.length})</h3><div style="max-height:60vh;overflow:auto">${itemsHtml || '<div class="subtitle">Nenhum resultado.</div>'}</div><div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn" id="closeRes">Fechar</button></div></div>`;
-    modalArea.appendChild(wrap);
-    document.getElementById('closeRes').addEventListener('click', ()=> modalArea.innerHTML='');
-  }
-
-  function showModalAddQuick(what){ const modalArea = document.getElementById('modal-area'); modalArea.innerHTML=''; const m = document.createElement('div'); m.className='modal-back'; m.innerHTML = `<div class="modal"><h3>Nova ${what}</h3><div class="field"><input id="quick-val" placeholder="Digite..."/></div><div style="display:flex;gap:8px;justify-content:flex-end"><button id="quick-save" class="btn">Salvar</button><button id="quick-cancel" class="btn ghost">Cancelar</button></div></div>`; modalArea.appendChild(m);
-    document.getElementById('quick-cancel').addEventListener('click', ()=> modalArea.innerHTML='');
-    document.getElementById('quick-save').addEventListener('click', async ()=>{
-      const v = document.getElementById('quick-val').value.trim(); if(!v) return alert('Digite algo');
-      if(what === 'montadora') await add('montadoras',{name:v});
-      else if(what === 'veiculo') await add('veiculos',{name:v});
-      else if(what === 'corveic') await add('corveic',{name:v});
-      else if(what === 'codcor') await add('codcor',{code:v});
-      modalArea.innerHTML=''; refreshCounts(); populateSelects();
-    });
-  }
-
-  // ------------------ register pwa / service worker via blob ------------------
-  function registerPWA(){ if('serviceWorker' in navigator){ const swCode = document.getElementById('sw')?.textContent || `const CACHE='h2tech-cache-v1';self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>{}));});self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(f=>{caches.open(CACHE).then(c=>c.put(e.request,f.clone()));return f;}).catch(()=>{})));});`; const blob = new Blob([swCode], {type:'text/javascript'}); const swUrl = URL.createObjectURL(blob); navigator.serviceWorker.register(swUrl).then(()=>console.log('SW registrado')).catch(e=>console.warn(e)); }
-    // create manifest on the fly
-    const manifest = {name:'H2tech Cores',short_name:'H2 Cores',start_url:'/',display:'standalone',background_color:'#ffffff',theme_color:'#0ea5e9',icons:[{src:'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns=\\\"http://www.w3.org/2000/svg\\\" viewBox=\\\"0 0 120 120\\\"><rect width=\\\"120\\\" height=\\\"120\\\" rx=\\\"24\\\" fill=\\\"%230ea5e9\\\"/><text x=\\\"50%\\\" y=\\\"56%\\\" font-size=\\\"48\\\" text-anchor=\\\"middle\\\" fill=\\\"white\\\" font-family=\\\"Arial\\\">H2</text></svg>') ,sizes:'192x192',type:'image/svg+xml'}] };
-    const manBlob = new Blob([JSON.stringify(manifest)],{type:'application/json'}); const manUrl = URL.createObjectURL(manBlob); const link = document.createElement('link'); link.rel='manifest'; link.href=manUrl; document.head.appendChild(link);
-  }
-
-  // small helper to get all stores count
-
-  // ------------------ misc utils ------------------
-
-  </script>
-
-  <script>
-  // ---------------- Mensagem de sucesso personalizada ----------------
-function showSuccess(msg, width='90%'){
-  const popup = document.createElement('div');
-  popup.style.position = 'fixed';
-  popup.style.bottom = '20px';
-  popup.style.left = '50%';
-  popup.style.transform = 'translateX(-50%)';
-  popup.style.background = '#0ea5e9';
-  popup.style.color = '#fff';
-  popup.style.padding = '12px 24px';
-  popup.style.borderRadius = '12px';
-  popup.style.boxShadow = '0 6px 18px rgba(0,0,0,0.15)';
-  popup.style.zIndex = 9999;
-  popup.style.fontWeight = '600';
-  popup.style.width = width;        // largura responsiva
-  popup.style.maxWidth = '500px';   // limite máximo em telas grandes
-  popup.textContent = msg;
-  document.body.appendChild(popup);
-  setTimeout(()=>popup.remove(), 2500);
-}
-  // ---------------- Hook nos botões de cadastro ----------------
-  async function bindCustomSuccessButtons(){
-    const addBtns = [
-      {id:'btn-save-mont', msg:'Montadora adicionada com sucesso!'},
-      {id:'btn-save-veic', msg:'Veículo adicionado com sucesso!'},
-      {id:'btn-save-corv', msg:'Cor do veículo adicionada!'},
-      {id:'btn-save-coduni', msg:'Código universal adicionado!'},
-      {id:'btn-save-codcor', msg:'Código de cor adicionado!'},
-      {id:'btn-cadastrar-item', msg:'Item cadastrado com sucesso!'}
-    ];
-
-    addBtns.forEach(b=>{
-      const btn = document.getElementById(b.id);
-      if(!btn) return;
-      btn.addEventListener('click', async (e)=>{
-        // delay para esperar o IndexedDB salvar
-        setTimeout(()=>showSuccess(b.msg), 300);
-      });
-    });
-  }
-
-  // ---------------- Inicialização ----------------
-  (async function initCustomMessages(){
-    await bindCustomSuccessButtons();
-  })();
-</script>
-
-  <!-- optional inline service worker source (fallback) -->
-  <script id="sw" type="javascript/worker">
-    const CACHE = 'h2tech-cache-v1';
-    self.addEventListener('install', e=>{
-      self.skipWaiting();
-      e.waitUntil(caches.open(CACHE).then(c=> c.addAll([]).catch(()=>{})));
-    });
-    self.addEventListener('activate', e=>{
-      e.waitUntil(self.clients.claim());
-    });
-    self.addEventListener('fetch', e=>{
-      if(e.request.method !== 'GET') return;
-      e.respondWith(caches.match(e.request).then(resp=> resp || fetch(e.request).then(f=>{ caches.open(CACHE).then(c=>c.put(e.request, f.clone())); return f; }).catch(()=> {})));
-    });
-  </script>
-
+  <script src="app.js"></script>
 </body>
 </html>

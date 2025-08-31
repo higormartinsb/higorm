@@ -1,0 +1,56 @@
+ <!-- SIMULADOR -->
+    <div class="screen" id="screen-sim" role="group" aria-label="Tela Simulador">
+      <header>
+        <div class="topbar">
+          <button class="back" aria-label="Voltar" onclick="App.back()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div style="margin-left:auto; opacity:.95;">
+            <img src="icons/icon-192.png" width="36" height="36" alt="logo">
+          </div>
+        </div>
+        <div style="padding:12px 16px 8px;">
+          <div class="big">Buscar profissionais</div>
+          <div class="rate">1,29% a.m</div>
+          <p class="subtitle" style="margin-top:6px;">Procure por prestadares próximo de voçe</p>
+        </div>
+      </header>
+      <main>
+        <div class="content">
+          <div style="margin-bottom:12px;">
+            <label class="subtitle">Valor desejado</label>
+            <input id="sim-valor" type="range" min="500" max="50000" step="100" value="5000" style="width:100%; margin-top:8px;">
+            <div style="display:flex; justify-content:space-between; margin-top:6px;"><small>R$500</small><small>R$50.000</small></div>
+            <div style="margin-top:12px; font-weight:900; font-size:18px;" id="sim-valor-text">R$ 5.000</div>
+          </div>
+          <div style="margin-top:12px;">
+            <label class="subtitle">Parcelas</label>
+            <select id="sim-parc" style="width:100%; padding:12px; border-radius:10px; margin-top:8px;">
+              <option value="12">12x</option>
+              <option value="24" selected>24x</option>
+              <option value="36">36x</option>
+              <option value="48">48x</option>
+            </select>
+          </div>
+          <div style="margin-top:18px;">
+            <div class="rowlink tappable" onclick="App.toast('Simulando...')">
+              <div class="left">
+                <div style="font-weight:900;">Ver resultado</div>
+              </div>
+              <svg class="chev" viewBox="0 0 8 14" fill="none" stroke="#0f172a" stroke-width="2"><path d="M1 1l6 6-6 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+      <!-- Campo de busca moderno -->
+  <div class="search-box">
+    <input type="text" placeholder="Ex. Pintor, Eletricista, Pedreiro ..." />
+    <button type="button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
