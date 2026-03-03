@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Pro - ChamaOS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body{
+    margin:0;
+    font-family:'Inter', sans-serif;
+    background:linear-gradient(135deg,#0F172A,#1E293B);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    color:#0F172A;
+}
+
+.container{
+    background:#ffffff;
+    padding:35px;
+    border-radius:24px;
+    width:420px;
+    box-shadow:0 25px 60px rgba(0,0,0,.25);
+    text-align:center;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #E2E8F0;
+    margin-bottom:12px;
+    font-size:14px;
+}
+
+input[type="color"]{
+    height:45px;
+    padding:5px;
+}
+
+.btn-row{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+button{
+    flex:1;
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    font-size:14px;
+}
+
+.primary{
+    background:#2563EB;
+    color:white;
+}
+
+.primary:hover{
+    background:#1D4ED8;
+}
+
+.success{
+    background:#10B981;
+    color:white;
+}
+
+.success:hover{
+    background:#059669;
+}
+
+#qr-wrapper{
+    background:linear-gradient(145deg,#ffffff,#f8fafc);
+    padding:30px;
+    border-radius:24px;
+    margin-top:25px;
+    box-shadow:inset 0 0 0 6px #ffffff, 
+               0 10px 30px rgba(0,0,0,.08);
+}
+
+#qr{
+    margin:auto;
+}
+
+#qr-text{
+    margin-top:18px;
+    font-weight:700;
+    font-size:16px;
+    color:#0F172A;
+    letter-spacing:.3px;
+}
+
+.color-row{
+    text-align:left;
+    margin-bottom:12px;
+}
+
+.color-row label{
+    font-size:13px;
+    font-weight:600;
+    display:block;
+    margin-bottom:5px;
+    color:#334155;
+}
+
+.color-row input[type="color"]{
+    width:70px;
+    height:35px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* Upload moderno */
+.upload-btn{
+    display:block;
+    background:#F8FAFC;
+    border:1px dashed #CBD5E1;
+    border-radius:12px;
+    padding:12px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:14px;
+    font-weight:600;
+    color:#334155;
+    margin-bottom:12px;
+}
+
+.upload-btn:hover{
+    background:#E2E8F0;
+}
+
+.upload-btn input{
+    display:none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Gerador QR - ChamaOS</h2>
+
+   <label style="font-weight:600; font-size:13px; text-align:left; display:block;">
+🔗 Link de redirecionamento (oculto)
+</label>
+<input type="text" id="url" placeholder="https://seusite.com">
+
+<label style="font-weight:600; font-size:13px; text-align:left; display:block; margin-top:8px;">
+📝 Texto exibido abaixo do QR
+</label>
+<input type="text" id="qrTextInput" placeholder="Ex: Escaneie e peça agora">
+
+   <label class="upload-btn">
+    <input type="file" id="logoInput" accept="image/*">
+    <span>📤 Enviar Logo</span>
+</label>
+
+   <div class="color-row">
+    <label>Cor do QR</label>
+    <input type="color" id="colorPicker" value="#111827">
+</div>
+
+    <select id="dotStyle">
+        <option value="rounded">Arredondado</option>
+        <option value="dots">Pontos</option>
+        <option value="classy">Classy</option>
+        <option value="square">Quadrado</option>
+    </select>
+
+    <button class="primary" onclick="generateQR()">Atualizar QR</button>
+
+    <div id="qr-wrapper">
+        <div id="qr"></div>
+        <div id="qr-text"></div>
+    </div>
+
+    <div class="btn-row">
+        <button class="success" onclick="downloadPNG()">PNG</button>
+        <button class="success" onclick="downloadPDF()">PDF</button>
+    </div>
+</div>
+
+<script>
+
+let qrCode = new QRCodeStyling({
+    width: 280,
+    height: 280,
+    data: "https://www.chamaos.com",
+    dotsOptions: {
+        color: "#111827",
+        type: "rounded"
+    },
+    cornersSquareOptions: {
+        type: "extra-rounded",
+        color: "#111827"
+    },
+    backgroundOptions: {
+        color: "#ffffff"
+    }
+});
+
+qrCode.append(document.getElementById("qr"));
+
+function generateQR(){
+
+    const url = document.getElementById("url").value.trim();
+    const color = document.getElementById("colorPicker").value;
+    const dotStyle = document.getElementById("dotStyle").value;
+    const qrText = document.getElementById("qrTextInput").value.trim();
+
+    if(!url){
+        alert("Insira um link de redirecionamento.");
+        return;
+    }
+
+    qrCode.update({
+        data: url, // 🔗 link oculto dentro do QR
+        dotsOptions: {
+            color: color,
+            type: dotStyle
+        },
+        cornersSquareOptions: {
+            type: "extra-rounded",
+            color: color
+        }
+    });
+
+    // 📝 Texto VISÍVEL abaixo do QR (não é o link)
+    document.getElementById("qr-text").innerText = qrText;
+}
+
+document.getElementById("logoInput").addEventListener("change", function(event){
+    const file = event.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e){
+        qrCode.update({
+            image: e.target.result
+        });
+    };
+    reader.readAsDataURL(file);
+});
+
+function downloadPNG(){
+    html2canvas(document.querySelector("#qr-wrapper")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "qrcode-chamaos.png";
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+}
+
+function downloadPDF(){
+    html2canvas(document.querySelector("#qr-wrapper")).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 15, 40, 180, 180);
+        pdf.save("qrcode-chamaos.pdf");
+    });
+}
+
+</script>
+
+</body>
+</html>
